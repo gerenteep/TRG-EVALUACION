@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#A87A53">
+<title>TRG · Evaluación de Líderes v2.0</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23A87A53'/%3E%3Crect x='10' y='12' width='34' height='38' fill='none' stroke='%23F7DEB2' stroke-width='3'/%3E%3Ctext x='37' y='41' font-family='Arial' font-size='20' fill='%23F7DEB2' text-anchor='middle'%3ETRG%3C/text%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--car:#A87A53;--car-d:#8A6240;--crema:#F7DEB2;--crema-l:#FBF1DF;--esp:#3B2A1E;--fondo:#F8F3EA;--card:#FFFFFF;--linea:#E7DCCB;--txt:#3B2A1E;--muted:#7A6A5C;--ok:#3E7C5A;--warn:#C98A2B;--bad:#C1362F;
+ --m:#C1362F;--e:#DE9A20;--s:#3E7C5A;--a:#2C5AA0;--m-s:#F7E6E4;--e-s:#FBEED6;--s-s:#E2EFE8;--a-s:#E1E9F5;--r:14px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--fondo);color:var(--txt);font-family:Montserrat,Arial,sans-serif;font-size:15px;line-height:1.45}
+button,input,textarea,select{font-family:inherit;font-size:15px}
+.top{background:var(--car);color:var(--crema);padding:10px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:5;box-shadow:0 2px 10px rgba(59,42,30,.15)}
+.top .t{font-weight:600;font-size:14px;line-height:1.2;flex:1;min-width:0}
+.top .t small{display:block;font-weight:400;opacity:.85;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top button{background:transparent;border:1px solid rgba(247,222,178,.6);color:var(--crema);border-radius:999px;padding:6px 12px;font-size:13px;cursor:pointer;flex:none}
+.wrap{max-width:760px;margin:0 auto;padding:16px 16px 100px}
+.wide{max-width:1180px}
+.card{background:var(--card);border:1px solid var(--linea);border-radius:var(--r);padding:18px;margin-bottom:14px}
+h1{font-size:22px;margin:4px 0 6px;line-height:1.25}
+h2{font-size:18px;margin:0 0 8px}
+h3{font-size:15px;margin:0 0 6px}
+p{margin:0 0 10px}
+ul{margin:4px 0 10px;padding-left:20px}
+li{margin-bottom:3px}
+.muted{color:var(--muted)}.small{font-size:13px}
+label{display:block;font-weight:600;font-size:13px;margin:12px 0 6px}
+input,textarea,select{width:100%;padding:12px 14px;border:1.5px solid var(--linea);border-radius:10px;background:#fff;color:var(--txt)}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--car)}
+textarea{min-height:84px;resize:vertical}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--car);color:#fff;border:0;border-radius:12px;padding:13px 18px;font-weight:600;cursor:pointer;width:100%;min-height:48px;text-decoration:none}
+.btn:hover{background:var(--car-d)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sec{background:#fff;color:var(--car-d);border:1.5px solid var(--car)}
+.btn.inline{width:auto}
+.btn.sm{min-height:38px;padding:8px 12px;font-size:13px;border-radius:10px}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.hero{background:var(--car);color:var(--crema);border-radius:0 0 28px 28px;padding:32px 20px 28px;text-align:center}
+.hero h1{color:#fff;font-size:24px}
+.logo{display:block;margin:0 auto 12px;flex:none}
+.top .logo{margin:0}
+.tile{display:flex;gap:14px;align-items:center;cursor:pointer}
+.tile .ic{width:48px;height:48px;border-radius:12px;display:grid;place-items:center;font-weight:700;color:#fff;flex:none;font-size:14px}
+.tile .bd{flex:1;min-width:0}
+.pill{display:inline-block;font-size:12px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--crema-l);color:var(--car-d);white-space:nowrap}
+.pill.ok{background:#E2EFE8;color:#2D5E43}.pill.pend{background:#FBEED6;color:#8A5A12}
+.prog{height:8px;background:var(--linea);border-radius:99px;overflow:hidden;margin:6px 0 14px}
+.prog i{display:block;height:100%;background:var(--car);transition:width .3s}
+.opt{border:1.5px solid var(--linea);border-radius:12px;padding:12px;margin-bottom:10px;background:#fff}
+.opt.mas{border-color:var(--ok);background:#F0F7F3}.opt.menos{border-color:var(--bad);background:#FBEFEE}
+.opt .ch{display:flex;gap:8px;margin-top:10px}
+.ch button{flex:1;border:1.5px solid var(--linea);background:#fff;border-radius:10px;padding:9px 6px;font-weight:600;font-size:13px;cursor:pointer;color:var(--muted)}
+.ch button.on.m{background:var(--ok);border-color:var(--ok);color:#fff}
+.ch button.on.n{background:var(--bad);border-color:var(--bad);color:#fff}
+.item{padding:12px 0;border-top:1px solid var(--linea)}
+.item:first-of-type{border-top:0}
+.scale{display:grid;gap:6px;margin-top:8px}
+.scale.s5{grid-template-columns:repeat(5,1fr)}.scale.s4{grid-template-columns:repeat(4,1fr)}
+.scale button{border:1.5px solid var(--linea);background:#fff;border-radius:10px;padding:10px 0 6px;font-weight:700;font-size:16px;cursor:pointer;color:var(--txt);line-height:1}
+.scale button small{display:block;font-size:9.5px;font-weight:500;margin-top:4px;color:var(--muted)}
+.scale button.on{background:var(--car);border-color:var(--car);color:#fff}
+.scale button.on small{color:var(--crema)}
+.sticky{position:fixed;left:0;right:0;bottom:0;background:rgba(248,243,234,.96);backdrop-filter:blur(6px);border-top:1px solid var(--linea);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:4}
+.sticky .in{max-width:760px;margin:0 auto;display:flex;gap:10px}
+.bar{display:flex;align-items:center;gap:10px;margin:8px 0}
+.bar .lb{width:130px;font-size:13px;font-weight:600;flex:none}
+.bar .tr{flex:1;height:14px;background:var(--crema-l);border-radius:99px;position:relative}
+.bar .tr i{display:block;height:100%;border-radius:99px}
+.bar .tr b{position:absolute;top:-3px;width:3px;height:20px;background:var(--esp);border-radius:2px}
+.bar .v{width:40px;text-align:right;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;flex:none}
+.toast{position:fixed;left:50%;top:18px;transform:translateX(-50%);background:var(--esp);color:#fff;padding:10px 16px;border-radius:10px;z-index:50;font-size:14px;max-width:90vw}
+.demo{background:#FFF4DC;border:1px dashed var(--warn);color:#7A5410;border-radius:10px;padding:8px 12px;font-size:12.5px;margin-bottom:12px}
+.grid{display:grid;gap:12px}
+.kpis{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.kpi{background:#fff;border:1px solid var(--linea);border-radius:12px;padding:14px}
+.kpi b{display:block;font-size:26px;color:var(--car-d)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th,td{padding:9px 8px;border-bottom:1px solid var(--linea);text-align:left;vertical-align:top}
+th{font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);background:var(--crema-l)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.click{cursor:pointer}tr.click:hover td{background:#FDF8EF}
+.tbl{overflow-x:auto;border:1px solid var(--linea);border-radius:12px;background:#fff}
+.chip{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px;white-space:nowrap}
+.chip.m{background:var(--m-s);color:var(--m)}.chip.e{background:var(--e-s);color:#9A6A10}.chip.s{background:var(--s-s);color:var(--s)}.chip.a{background:var(--a-s);color:var(--a)}
+.chip.ok{background:#E2EFE8;color:#2D5E43}.chip.medio{background:#FBEED6;color:#8A5A12}.chip.bajo{background:#F7E6E4;color:#8E2A24}
+.lvl{font-weight:600;font-size:12px;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.two{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:860px){.two{grid-template-columns:1fr 1fr}}
+.alerta{border-left:5px solid;padding:10px 12px;border-radius:8px;margin-bottom:8px;font-size:13.5px}
+.alerta.roja{border-color:var(--bad);background:#FBEFEE}.alerta.ambar{border-color:var(--warn);background:#FFF6E6}.alerta.verde{border-color:var(--ok);background:#EEF6F1}
+.sec-title{display:flex;align-items:center;gap:10px;margin:22px 2px 10px}
+.sec-title .tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff;padding:3px 8px;border-radius:6px;flex:none}
+.gap-pos{color:var(--ok);font-weight:600}.gap-neg{color:var(--bad);font-weight:600}
+.mapa{width:100%;height:auto;display:block}
+.eq{padding:14px}
+.eq .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+@media print{.top,.sticky,.noprint{display:none!important}body{background:#fff}.card{break-inside:avoid}.wrap{padding:0}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* =================== CONFIGURACIÓN =================== */
+// Pega aquí la URL /exec de tu Apps Script. Vacía = MODO DEMO (datos solo en este navegador).
+const API_URL = 'https://script.google.com/macros/s/AKfycbwtlUTEaZ8le1HryB9X9M2J4jBeWy0MaJ8mt8I3RnNdVOBuN0_6ZmLp9BbH6nLvnxw/exec';
+const W180 = {jefe:0.7, auto:0.3, blandas:0.5, tecnicas:0.5};   // Evaluación 180° (50/50)
+const BANK = {"cargos":[{"id":"GAF","nombre":"Gerente Administrativo y Financiero","M":80,"E":55,"S":48,"A":88,"fam":"finanzas","area":"Gerencia General","jefe":"Gerente General","equipo":"Director Administrativo, Director de Gestión Humana, Coordinador Operativo, Jefe de Compras, Jefe de Producción, Coordinador de Calidad, Contador, Auditor","mision":"Garantizar el óptimo funcionamiento, sostenibilidad y crecimiento del Grupo mediante la planeación, supervisión y control de las políticas administrativas y financieras."},{"id":"DMA","nombre":"Director de Marca","M":80,"E":76,"S":45,"A":72,"fam":"marca","area":"Gerencia General","jefe":"Gerente General","equipo":"Administrador, Personal de Servicio, Personal de Cocina","mision":"Garantizar los indicadores clave, la rentabilidad y la imagen de la marca, controlando la operación y la satisfacción de los comensales."},{"id":"DAD","nombre":"Director Administrativo","M":70,"E":52,"S":58,"A":86,"fam":"admin","area":"Gerencia Administrativa y Financiera","jefe":"Gerente Administrativo y Financiero","equipo":"Analista de Tesorería","mision":"Administrar los recursos humanos, financieros y físicos para asegurar la operación, el cumplimiento de compromisos y el apoyo administrativo a las áreas."},{"id":"DGH","nombre":"Director de Gestión Humana","M":62,"E":76,"S":72,"A":80,"fam":"gh","area":"Gerencia Administrativa y Financiera","jefe":"Gerente Administrativo y Financiero","equipo":"Analista de Desarrollo, Analista de Bienestar, Analista de Nómina","mision":"Garantizar que el equipo humano cumpla los perfiles y criterios de desempeño requeridos, gestionando selección, capacitación, desarrollo y bienestar."},{"id":"JIN","nombre":"Jefe de Infraestructura (Coordinador Operativo)","M":62,"E":45,"S":66,"A":84,"fam":"infra","area":"Gerencia Administrativa y Financiera","jefe":"Director Administrativo","equipo":"Auxiliar de Mantenimiento, Auxiliar de Servicios Generales","mision":"Optimizar la vida útil de activos, equipos e instalaciones, reduciendo costos mediante mantenimiento preventivo y correctivo eficiente."},{"id":"JCO","nombre":"Jefe de Compras","M":68,"E":60,"S":50,"A":90,"fam":"compras","area":"Gerencia Administrativa y Financiera","jefe":"Gerente Administrativo y Financiero","equipo":"Ninguno","mision":"Asegurar el abastecimiento de insumos y activos con calidad y precio óptimos, negociando con proveedores confiables."},{"id":"JPL","nombre":"Jefe de Producción y Logística","M":74,"E":45,"S":60,"A":88,"fam":"produccion","area":"Gerencia Administrativa y Financiera","jefe":"Gerente Administrativo y Financiero","equipo":"Auxiliar de Despacho, Auxiliar de Bodega, Porcionador, Auxiliares de Producción, Cocineros, Panaderos","mision":"Garantizar el suministro oportuno y la rotación de insumos y productos procesados, asegurando calidad e inocuidad."},{"id":"APV","nombre":"Administrador de Punto de Venta","M":72,"E":78,"S":58,"A":72,"fam":"punto","area":"Gerencia Comercial","jefe":"Director de Marca","equipo":"Personal de Servicio, Personal de Cocina, Cajera","mision":"Garantizar la satisfacción de los clientes y el cumplimiento de los estándares de operación, asegurando las ventas en el punto de venta."},{"id":"JME","nombre":"Jefe de Mercadeo","M":66,"E":86,"S":45,"A":62,"fam":"mercadeo","area":"Gerencia Comercial","jefe":"Gerente Comercial","equipo":"Asistente de Mercadeo, Diseñador Gráfico, Community Manager","mision":"Posicionar las marcas del Grupo mediante campañas publicitarias de alto impacto y relaciones estratégicas."}],"b180":{"blandas":[{"id":"A1","c":"Orientación al servicio y hospitalidad","d":"Pone la experiencia del comensal en el centro de las decisiones y lo contagia a su equipo.","q":["Revisa y actúa sobre los indicadores de experiencia del cliente (PQR, reseñas, encuestas) con planes concretos.","Modela con su ejemplo el estándar de atención cuando está en los puntos de venta.","Resuelve quejas escaladas de clientes con rapidez, empatía y soluciones que evitan que se repitan."]},{"id":"A2","c":"Liderazgo y desarrollo de equipos","d":"Inspira, orienta y hace crecer a su gente; forma relevos.","q":["Define metas claras a su equipo y hace seguimiento periódico con retroalimentación oportuna.","Identifica talento en su equipo y le brinda oportunidades de formación o crecimiento (planes de desarrollo, reemplazos).","Reconoce públicamente los logros de sus colaboradores y corrige en privado."]},{"id":"A3","c":"Comunicación asertiva","d":"Transmite mensajes claros, respetuosos y oportunos en todos los niveles.","q":["Comunica decisiones y cambios de forma clara, explicando el porqué a quienes los ejecutan.","Escucha activamente opiniones distintas antes de fijar una posición.","Deja trazabilidad escrita de acuerdos, instrucciones y compromisos relevantes."]},{"id":"A4","c":"Trabajo en equipo y colaboración","d":"Construye puentes entre áreas, marcas y puntos de venta.","q":["Comparte información y recursos con otras áreas o puntos de venta para lograr metas comunes.","Participa activamente en comités y cumple los compromisos que asume en ellos.","Prioriza el resultado del grupo TRIFASE sobre los intereses de su área."]},{"id":"A5","c":"Toma de decisiones y solución de problemas","d":"Decide con datos, criterio y oportunidad, incluso bajo presión.","q":["Analiza la causa raíz de los problemas antes de proponer soluciones.","Toma decisiones oportunas en momentos de alta presión operativa (temporadas, fallas, ausentismo).","Evalúa el impacto económico, jurídico y humano antes de decidir."]},{"id":"A6","c":"Inteligencia emocional y manejo de conflictos","d":"Autorregula sus emociones y gestiona los conflictos con respeto.","q":["Mantiene la calma y el trato respetuoso en situaciones de tensión.","Interviene a tiempo en conflictos del equipo y facilita acuerdos, sin evadirlos ni escalarlos innecesariamente.","Recibe la retroalimentación sobre su gestión sin actitud defensiva y la convierte en acciones."]},{"id":"A7","c":"Adaptabilidad y gestión del cambio","d":"Se ajusta al entorno y lidera la transformación del negocio.","q":["Adopta y promueve nuevas herramientas, procesos o normas en su equipo.","Ajusta sus planes con agilidad ante cambios del mercado, la regulación o la operación.","Propone mejoras e ideas innovadoras para su área o para el negocio."]},{"id":"A8","c":"Integridad y cumplimiento","d":"Actúa con ética, coherencia y apego a la ley y a las políticas internas.","q":["Cumple y hace cumplir las políticas internas, el Reglamento Interno de Trabajo y la normativa aplicable.","Maneja con transparencia y confidencialidad la información, los recursos y el dinero a su cargo.","Aplica criterios justos y consistentes con todos los colaboradores, respetando el debido proceso."]}],"fam":{"finanzas":[{"id":"B1","c":"Presupuesto y flujo de caja","q":["Elabora el presupuesto anual por punto y hace seguimiento mensual de sus desviaciones.","Proyecta el flujo de caja y anticipa necesidades de liquidez.","Presenta a la gerencia informes financieros oportunos y comprensibles para decidir."]},{"id":"B2","c":"Control de costos y gastos","q":["Mide y controla el costo de alimentos y bebidas (food cost) y el costo laboral por punto.","Identifica oportunidades de ahorro sin afectar la calidad ni el servicio.","Hace seguimiento a mermas, desperdicios y faltantes de inventario."]},{"id":"B3","c":"Contabilidad, tributaria y facturación","q":["Garantiza estados financieros bajo NIIF, cierres oportunos y conciliaciones al día.","Asegura el cumplimiento de obligaciones tributarias propias del sector (impuesto al consumo, retenciones, facturación electrónica).","Atiende requerimientos de entes de control sin sanciones por errores o extemporaneidad."]},{"id":"B4","c":"Control interno y riesgos","q":["Implementa controles de caja, arqueos y manejo de efectivo en los puntos.","Define niveles de autorización para pagos, descuentos y cortesías.","Detecta y reporta a tiempo irregularidades o riesgos de fraude."]},{"id":"B5","c":"Dirección de las áreas de apoyo","q":["Fija metas e indicadores claros a GH, compras, producción, calidad y contabilidad, y les hace seguimiento documentado.","Integra la información de las áreas a su cargo para presentar a la gerencia un panorama completo del Grupo.","Resuelve a tiempo los cuellos de botella entre las áreas de apoyo y la operación de los puntos."]}],"marca":[{"id":"B1","c":"Rentabilidad y P&G de la marca","q":["Analiza ventas, costos y margen de cada punto de la marca e interviene los que están por debajo de la meta.","Controla que el costo de alimentos y el costo laboral de la marca estén dentro del presupuesto.","Sustenta con análisis financiero sus propuestas de inversión, horarios o cambios en los puntos."]},{"id":"B2","c":"Estándar de marca y experiencia del comensal","q":["Audita periódicamente producto, servicio, ambiente y tiempos en cada punto, con informe y seguimiento.","Actúa sobre reseñas, PQR y encuestas con planes concretos por punto.","Asegura que todas las sedes de la marca entreguen la misma promesa al cliente."]},{"id":"B3","c":"Gestión comercial y de marca","q":["Impulsa estrategias para aumentar ventas, ticket promedio y fidelización.","Articula mercadeo, operación y servicio en las campañas y temporadas.","Monitorea a la competencia y las tendencias del sector gastronómico."]},{"id":"B4","c":"Dirección de administradores de punto","q":["Define metas a cada administrador y hace seguimiento semanal a sus indicadores.","Forma y acompaña a los administradores en la gestión de su equipo y de su P&G.","Identifica relevos y talento para abrir o sostener puntos de venta."]},{"id":"B5","c":"Cumplimiento normativo y gestión de riesgos","q":["Mantiene al día licencias, permisos y conceptos sanitarios de todos los puntos.","Asegura que la operación cumpla la normativa laboral y de SST vigente.","Identifica riesgos legales, económicos y reputacionales y exige planes para mitigarlos."]}],"admin":[{"id":"B1","c":"Recursos físicos y activos","q":["Mantiene actualizado el inventario de activos del Grupo con responsables y ubicación.","Gestiona seguros, arriendos y servicios con vencimientos controlados.","Toma decisiones de reposición o reparación de activos con análisis de costo."]},{"id":"B2","c":"Tesorería y flujo de caja","q":["Programa pagos según el flujo de caja y evita moras e intereses innecesarios.","Mantiene conciliaciones bancarias al día y sin partidas sin explicar.","Reporta oportunamente a la gerencia las necesidades de liquidez."]},{"id":"B3","c":"Gestión documental y contractual","q":["Mantiene contratos, pólizas y soportes completos, vigentes y disponibles para auditoría.","Controla vencimientos de contratos, licencias y permisos con alertas anticipadas.","Asegura que cada compromiso del Grupo tenga soporte escrito y aprobado."]},{"id":"B4","c":"Control interno y riesgos","q":["Implementa controles de caja, arqueos y manejo de efectivo en los puntos.","Define niveles de autorización para pagos, descuentos y cortesías.","Detecta y reporta a tiempo irregularidades o riesgos de fraude."]},{"id":"B5","c":"Soporte administrativo a la operación","q":["Atiende los requerimientos administrativos de los puntos en los tiempos acordados.","Simplifica trámites internos para que la operación no se detenga por papeleo.","Mide la satisfacción de las áreas con el servicio administrativo y actúa sobre los resultados."]}],"gh":[{"id":"B1","c":"Atracción, selección y retención","q":["Cubre las vacantes críticas de cocina y servicio en los tiempos acordados.","Mide la rotación por punto y cargo e implementa acciones de retención.","Aplica procesos de selección y vinculación documentados (perfiles, pruebas, exámenes, afiliaciones)."]},{"id":"B2","c":"Legislación laboral y blindaje jurídico","q":["Mantiene contratos, otrosíes y Reglamento Interno de Trabajo actualizados con la normativa vigente (reforma laboral Ley 2466 de 2025).","Asegura que la programación de turnos respete la jornada máxima legal y los recargos nocturnos, dominicales y festivos vigentes.","Conduce los procesos disciplinarios con debido proceso, soportes y actas."]},{"id":"B3","c":"Nómina, seguridad social y compensación","q":["Garantiza la nómina y la PILA sin errores ni sanciones, con conciliación mensual.","Gestiona propinas y recargos conforme a la ley y a la política interna de manera transparente.","Presenta informes de costo laboral, horas extra e incapacidades para la toma de decisiones."]},{"id":"B4","c":"SG-SST","q":["Mantiene el SG-SST conforme al Decreto 1072 de 2015 y los estándares mínimos de la Resolución 0312 de 2019.","Gestiona la matriz de peligros propios de cocina (quemaduras, cortes, caídas, cargas) con controles efectivos.","Investiga incidentes y accidentes de trabajo y hace seguimiento a las acciones correctivas; COPASST y Comité de Convivencia activos."]},{"id":"B5","c":"Cultura, clima, formación y bienestar","q":["Ejecuta el plan de formación y mide su cobertura y efectividad.","Mide el clima laboral y convierte los resultados en planes de acción por punto.","Lidera programas de reconocimiento y bienestar (p. ej., Anfitrión Estrella y Maestro del Sabor)."]}],"infra":[{"id":"B1","c":"Plan de mantenimiento preventivo y correctivo","q":["Ejecuta un plan de mantenimiento preventivo documentado para todos los puntos y la planta.","Atiende las fallas correctivas en los tiempos acordados según la criticidad del equipo.","Mide la disponibilidad de los equipos críticos y reduce las paradas de servicio."]},{"id":"B2","c":"Equipos de cocina, refrigeración, gas y redes","q":["Conoce el funcionamiento y los riesgos de los equipos de cocina, refrigeración y gas del negocio.","Decide con análisis técnico y de costo entre reparar, reemplazar o tercerizar.","Mantiene hojas de vida de los equipos con historial de intervenciones."]},{"id":"B3","c":"Consumos y servicios públicos","q":["Monitorea mensualmente agua, energía y gas por punto e identifica desviaciones.","Implementa acciones de ahorro con resultados medibles.","Coordina con los administradores las buenas prácticas de uso de servicios."]},{"id":"B4","c":"Contratistas y seguridad en trabajos de mantenimiento","q":["Verifica afiliación a seguridad social, competencias y EPP de los contratistas antes de iniciar trabajos.","Controla los permisos de trabajo en alturas, eléctricos y en caliente conforme al SG-SST.","Supervisa la calidad de los trabajos contratados y deja acta de recibo."]},{"id":"B5","c":"Presupuesto de mantenimiento y repuestos","q":["Ejecuta el presupuesto de mantenimiento y explica las desviaciones con causa y acción.","Controla el inventario de repuestos y herramientas críticas.","Propone inversiones de infraestructura sustentadas en costo-beneficio."]}],"compras":[{"id":"B1","c":"Negociación y evaluación de proveedores","q":["Negocia precio, plazo y condiciones con soporte de cotizaciones comparables.","Evalúa periódicamente a los proveedores con criterios de calidad, cumplimiento y precio.","Desarrolla proveedores alternos para insumos críticos."]},{"id":"B2","c":"Costeo y comparativos de compra","q":["Sustenta cada compra relevante con comparativo e histórico de precios.","Analiza el costo total (precio, merma, transporte, plazo) y no solo el precio unitario.","Informa oportunamente a cocina y finanzas los cambios de precio que afectan el costo de los platos."]},{"id":"B3","c":"Compras, inventarios y proveedores","q":["Aplica un proceso de compras con cotizaciones, evaluación y selección de proveedores.","Asegura inventarios periódicos con conciliación y análisis de diferencias.","Negocia condiciones favorables (precio, plazo, calidad) con los proveedores."]},{"id":"B4","c":"Calidad e inocuidad en la recepción","q":["Exige a los proveedores fichas técnicas, registros sanitarios y certificados vigentes.","Asegura que la recepción verifique temperatura, rotulado, fechas y estado del producto.","Gestiona devoluciones y no conformidades con soporte y seguimiento."]},{"id":"B5","c":"Transparencia del proceso de compras","q":["Aplica los niveles de autorización y deja trazabilidad de cada orden de compra.","Declara y evita conflictos de interés con proveedores.","Reporta a tiempo cualquier irregularidad detectada en el proceso."]}],"produccion":[{"id":"B1","c":"Planeación de producción y pronóstico","q":["Programa la producción según el pronóstico de ventas de los puntos.","Evita sobreproducción y agotados, con seguimiento a ambos indicadores.","Ajusta la planeación ante temporadas, eventos y cambios de menú."]},{"id":"B2","c":"Fichas técnicas, porcionamiento y mermas","q":["Garantiza que la producción cumpla gramajes, rendimientos y fichas técnicas.","Mide mermas por producto e identifica y corrige su causa en origen.","Controla que el porcionamiento sea consistente para todos los puntos."]},{"id":"B3","c":"Inocuidad y BPM","q":["Asegura el cumplimiento de Buenas Prácticas de Manufactura (Resolución 2674 de 2013) en todas las cocinas.","Verifica que el personal de cocina tenga certificación vigente de manipulación de alimentos.","Supervisa cadena de frío, rotación PEPS, rotulado y limpieza con registros al día."]},{"id":"B4","c":"Cadena de frío, trazabilidad y despacho","q":["Mantiene registros de temperatura y cadena de frío completos y al día.","Asegura rotulado y trazabilidad de lote desde la recepción hasta el despacho.","Cumple los horarios de entrega a los puntos con producto conforme."]},{"id":"B5","c":"Dirección del equipo de producción y SST en planta","q":["Entrena a su equipo en procesos, BPM y trabajo seguro, dejando evidencia.","Controla el uso de EPP y la operación segura de equipos de corte, cocción y carga.","Organiza turnos y cargas de trabajo conforme a la jornada legal vigente."]}],"punto":[{"id":"B1","c":"Gestión de la operación diaria","q":["Ejecuta aperturas y cierres con listas de chequeo completas.","Anticipa y resuelve novedades (ausencias, daños, faltantes) sin afectar el servicio.","Cumple las metas de ventas y ticket promedio de su punto."]},{"id":"B2","c":"Servicio al cliente y PQR","q":["Atiende y cierra las PQR de su punto dentro del tiempo establecido.","Supervisa en el salón los tiempos de atención y la calidad del servicio.","Implementa acciones a partir de las reseñas y encuestas de su punto."]},{"id":"B3","c":"Control de caja e inventarios","q":["Realiza arqueos y cuadres de caja sin diferencias no justificadas.","Ejecuta inventarios periódicos y reporta mermas con soporte.","Controla descuentos, cortesías y anulaciones según la política."]},{"id":"B4","c":"Programación de personal conforme a la ley","q":["Programa turnos respetando jornada máxima, descansos y recargos vigentes.","Reporta novedades de nómina completas y a tiempo.","Aplica el conducto regular y documenta llamados de atención."]},{"id":"B5","c":"Cumplimiento sanitario y SST en punto","q":["Mantiene el punto listo para visitas de la autoridad sanitaria.","Verifica el uso de EPP, el orden y la limpieza, y reporta condiciones inseguras.","Reporta de inmediato incidentes y accidentes de trabajo."]}],"mercadeo":[{"id":"B1","c":"Planeación de campañas y medios","q":["Construye un plan anual de campañas alineado con las metas comerciales de cada marca.","Ejecuta las campañas en los tiempos acordados y con el presupuesto aprobado.","Coordina con operación para que los puntos estén listos para cada activación."]},{"id":"B2","c":"Marca digital, comunidad y reputación","q":["Mantiene redes y canales digitales con contenido coherente con la identidad de cada marca.","Responde reseñas y comentarios con estándar de marca y en tiempos definidos.","Gestiona crisis de reputación con protocolo y escalamiento oportuno."]},{"id":"B3","c":"Medición de retorno","q":["Relaciona cada inversión con tráfico, ventas y ticket promedio.","Presenta informes de resultado de campaña con datos y aprendizajes.","Suspende o ajusta a tiempo las acciones que no generan retorno."]},{"id":"B4","c":"Activación comercial y alianzas","q":["Diseña promociones y activaciones en punto que aumentan la venta sin afectar el margen.","Gestiona alianzas y convenios que atraen nuevos clientes.","Impulsa programas de fidelización con seguimiento a la recompra."]},{"id":"B5","c":"Gestión de proveedores creativos y presupuesto","q":["Controla el presupuesto de mercadeo y explica sus desviaciones.","Evalúa agencias, diseñadores y proveedores por calidad, cumplimiento y costo.","Asegura que las piezas cumplan el manual de marca y la normativa de publicidad."]}]}},"mesa":{"BLANDAS":[["Liderazgo y dirección de equipos","Organiza, delega y hace seguimiento; su gente sabe qué se espera de ella y por qué."],["Comunicación bajo presión","Da instrucciones claras en operación y en comité, sin ambigüedad ni desgaste."],["Orientación al comensal y al cliente interno","Lee la necesidad, se anticipa y responde en el tiempo que el negocio exige."],["Articulación entre áreas","Resuelve con la otra área sin trasladarle el problema al cliente ni al compañero."],["Manejo de conflictos y conversaciones difíciles","Interviene a tiempo, conversa en privado y cierra el tema; no deja rencillas abiertas."],["Adaptabilidad y manejo del estrés","Sostiene el desempeño ante cambios de menú, de volumen, de personal o de prioridades."],["Toma de decisiones y criterio","Decide con la información disponible, dentro de su autonomía, y asume el resultado."],["Planeación y organización","Anticipa, prioriza y cumple lo que promete en la fecha en que lo promete."],["Ejemplo, ética y disciplina operativa","Cumple primero lo que exige: puntualidad, presentación, higiene, trato y manejo de recursos."]],"TECNICAS":{"base":[["Planeación y control presupuestal","Construye el presupuesto de su área, lo ejecuta y explica las desviaciones con causa y acción."],["Indicadores y decisión con datos","Define, mide y actúa sobre los KPI de su proceso; no opina sobre lo que puede medir."],["Normatividad laboral aplicada a su equipo","Jornada, turnos, recargos, dominicales y disciplina conforme al CST y a la Ley 2101 de 2021."],["SG-SST en su proceso","Cumple y hace cumplir el Decreto 1072 de 2015 y la Resolución 0312 de 2019: riesgos, EPP, reporte e investigación."],["Inocuidad y estándar de calidad del Grupo","Aplica en su alcance la Resolución 2674 de 2013 y los estándares internos de producto y servicio."],["Dirección y desarrollo del equipo a cargo","Entrena, evalúa, retroalimenta y deja evidencia del desarrollo de su gente."]],"finanzas":[["Análisis financiero y estado de resultados","Lee el P y G por marca y por punto, y traduce la cifra en decisión operativa."],["Estructura de costos y rentabilidad","Controla food cost, costo de personal y gastos fijos frente a la meta del Grupo."],["Control interno y auditoría","Diseña y supervisa controles que protegen el activo y la información del Grupo."]],"marca":[["Rentabilidad y P y G de la marca","Responde por venta, margen y gasto de la marca y sostiene la meta mes a mes."],["Estándar de marca y experiencia del comensal","Audita la promesa de marca en cada punto: producto, servicio, ambiente y tiempos."],["Desarrollo de producto y menú","Participa en ingeniería de menú: rotación, margen y vigencia de la carta."]],"admin":[["Administración de recursos físicos y activos","Controla inventario de activos, seguros, arriendos y servicios del Grupo."],["Tesorería y flujo de caja","Programa pagos, concilia y sostiene el cumplimiento de compromisos."],["Gestión documental y contractual","Mantiene contratos, pólizas, soportes y archivos completos y auditables."]],"gh":[["Selección por competencias y estructura de perfiles","Levanta perfiles, aplica pruebas y selecciona con criterio técnico, no por urgencia."],["Nómina, seguridad social y liquidaciones","Garantiza exactitud y oportunidad; conoce el impacto legal de cada novedad."],["Clima, bienestar y relaciones laborales","Mide clima, gestiona el plan de bienestar y maneja el proceso disciplinario con debido proceso."],["Formación y evaluación de desempeño","Diseña el plan de formación, evalúa eficacia y administra el ciclo de desempeño."]],"infra":[["Plan de mantenimiento preventivo y correctivo","Programa, ejecuta y documenta el plan; mide disponibilidad de equipo crítico."],["Equipos de cocina, refrigeración y redes","Conoce el equipo del negocio y decide entre reparar, reemplazar o tercerizar."],["Control de consumos y servicios públicos","Monitorea agua, energía y gas, y ejecuta acciones de ahorro medibles."]],"compras":[["Negociación y evaluación de proveedores","Negocia precio, plazo y condiciones; evalúa y reevalúa proveedores con criterios definidos."],["Costeo y comparativos de compra","Sustenta cada decisión con comparativo, histórico de precio y costo total."],["Abastecimiento, inventario y rotación","Asegura disponibilidad sin sobre-stock; controla rotación, PEPS y vencimientos."]],"produccion":[["Planeación de producción y pronóstico","Programa según pronóstico de venta y evita sobreproducción y agotados."],["Fichas técnicas, porcionamiento y mermas","Sostiene gramaje y rendimiento; identifica y corrige la merma en su origen."],["Cadena de frío, trazabilidad y despacho","Garantiza temperatura, rotulado, trazabilidad y entrega oportuna a los puntos."]],"punto":[["Apertura, cierre y arqueo de caja","Ejecuta y audita los checklist de apertura y cierre y responde por el cuadre."],["Protocolo de servicio y venta sugestiva","Domina la secuencia de servicio y hace crecer el ticket promedio del punto."],["Food cost, inventario y venta del punto","Controla el inventario del punto y explica la diferencia entre teórico y real."]],"mercadeo":[["Planeación de campañas y medios","Construye el plan de medios, lo ejecuta en tiempo y mide el resultado."],["Marca digital y gestión de comunidad","Administra reputación, contenido y respuesta a reseñas con estándar de marca."],["Medición de retorno y activación comercial","Relaciona la inversión con tráfico, venta y ticket; corta lo que no rinde."]]},"DIMS":{"M":{"nombre":"Mando","estilo":"Brasa","color":"var(--m)","clase":"m"},"E":{"nombre":"Encanto","estilo":"Sazón","color":"var(--e)","clase":"e"},"S":{"nombre":"Soporte","estilo":"Fogón","color":"var(--s)","clase":"s"},"A":{"nombre":"Alineación","estilo":"Receta","color":"var(--a)","clase":"a"}},"BLOQUES":[["Entra un rush que nadie esperaba",{"M":"Tomo el mando, reparto tareas y marco el ritmo.","E":"Levanto el ánimo y contagio energía al equipo.","S":"Me planto en mi puesto y sostengo sin alterarme.","A":"Cuido que no se pierda el estándar aunque haya afán."}],["Lo que más me molesta de un turno",{"M":"Que las cosas avancen lentas.","E":"Un ambiente tenso y callado.","S":"Los cambios de última hora sin avisar.","A":"Que se improvise sin seguir la receta."}],["Llega un reclamo fuerte que toca tu área",{"M":"Resuelvo de una vez y decido la compensación.","E":"Lo escucho, le hablo bonito y me lo gano de nuevo.","S":"Le doy tiempo, lo calmo y lo acompaño hasta que quede tranquilo.","A":"Reviso qué falló en el proceso y lo dejo por escrito."}],["Mis compañeros dirían que soy",{"M":"Firme.","E":"Alegre.","S":"Confiable.","A":"Detallista."}],["Llega alguien nuevo al equipo",{"M":"Le digo qué hacer y espero que lo haga rápido.","E":"Lo hago sentir parte del equipo desde el primer día.","S":"Lo acompaño con paciencia las veces que necesite.","A":"Le entrego el paso a paso y verifico que lo cumpla."}],["Alguien del equipo comete un error",{"M":"Lo corrijo de frente y en el momento.","E":"Se lo digo con buena onda para que no se desanime.","S":"Espero el momento y lo converso en privado.","A":"Reviso el procedimiento y ajusto el control."}],["Lo que mejor manejo",{"M":"La presión.","E":"La gente.","S":"La constancia.","A":"El detalle."}],["Toca una revisión detallada: inventario, cuadre o auditoría",{"M":"Lo hago rápido para volver a la operación.","E":"Lo hago acompañado, conversando con el equipo.","S":"Lo hago con calma y sin saltarme nada.","A":"Lo cuadro al gramo y busco la diferencia hasta encontrarla."}],["En una reunión de equipo",{"M":"Voy directo a los resultados y a lo que falta.","E":"Hablo, propongo y animo al grupo.","S":"Escucho más de lo que hablo.","A":"Llego con los datos y las cifras revisadas."}],["Lo que más satisfacción me da",{"M":"Cerrar el mes con la meta cumplida.","E":"Que el cliente se vaya feliz y vuelva.","S":"Que el equipo esté unido y tranquilo.","A":"Que todo salga exacto, sin quejas ni devoluciones."}],["Cambian el menú o el procedimiento",{"M":"Lo asumo y lo pongo a andar de una.","E":"Se lo vendo al equipo para que se monte en el cambio.","S":"Necesito un tiempo para acomodarme; después lo sostengo.","A":"Pido la ficha técnica y el instructivo antes de arrancar."}],["Falta gente y hay que cubrir la operación",{"M":"Reorganizo y asumo lo que haga falta.","E":"Llamo, convenzo y consigo quién cubra.","S":"Me quedo más tiempo sin quejarme.","A":"Reviso la malla de turnos y dejo el soporte del cambio."}],["Mi forma de hablar es",{"M":"Corta y al grano.","E":"Animada y expresiva.","S":"Tranquila y pausada.","A":"Precisa y con datos."}],["Frente a una decisión difícil",{"M":"Decido rápido, aunque no tenga todo claro.","E":"Consulto con la gente en la que confío.","S":"Prefiero no apresurarme y evitar el choque.","A":"Busco la norma o el dato antes de decidir."}],["Lo que más cuido en mi gestión",{"M":"Los resultados y la productividad.","E":"El ambiente y la experiencia del cliente.","S":"La estabilidad y el bienestar del equipo.","A":"Los estándares, la higiene y los costos."}],["Dos compañeros discuten en plena operación",{"M":"Corto la discusión y pongo a cada uno en lo suyo.","E":"Los calmo, les bajo la tensión y los reconcilio.","S":"Los separo y hablo con cada uno después, con calma.","A":"Aplico lo que dice el reglamento y lo reporto."}],["El riesgo que reconozco en mí",{"M":"Puedo sonar duro o dura sin darme cuenta.","E":"Me distraigo con la conversación.","S":"Me cuesta decir que no.","A":"Me trabo buscando que todo quede perfecto."}],["Cuando me evalúan quiero saber",{"M":"Si cumplí la meta.","E":"Si el equipo está contento conmigo.","S":"Si estoy haciendo bien mi parte.","A":"Qué dicen los indicadores y la evidencia."}],["Un buen día de trabajo es",{"M":"Uno movido, con retos y decisiones.","E":"Uno con gente, risas y buen servicio.","S":"Uno organizado, sin sobresaltos.","A":"Uno donde todo cuadró: caja, inventario y cocina."}],["Lo primero que hago al empezar el día",{"M":"Reviso la meta del día y arranco.","E":"Saludo a todos y le tomo el pulso al equipo.","S":"Alisto mi espacio y dejo todo en orden.","A":"Reviso mi checklist punto por punto."}]],"LECTURA":{"M":{"titulo":"Brasa — Mando","motor":"El resultado. Necesita avanzar y ver la meta moverse.","fortalezas":["Toma el control cuando el servicio se desordena.","Decide sin quedarse esperando permiso.","Sostiene conversaciones difíciles sin evadirlas.","Empuja la venta y la productividad del punto."],"presion":["Atropella: da órdenes sin explicar el porqué.","Suena duro y el equipo se cierra.","Se salta el procedimiento con tal de cerrar la venta.","Decide solo y luego el equipo no se apropia."],"liderar":["Háblale con datos y en frases cortas; el rodeo lo desconecta.","Dale autonomía sobre una meta clara, no instrucciones paso a paso.","Corrígelo de frente y en privado: lo respeta.","Ponle retos; la rutina sin reto lo apaga."],"desarrollo":["Escucha activa y retroalimentación apreciativa.","Delegar sin retomar la tarea a mitad de camino.","Pausar cinco segundos antes de responder en el rush."]},"E":{"titulo":"Sazón — Encanto","motor":"El vínculo. Necesita gente, reconocimiento y buen ambiente.","fortalezas":["Recupera al cliente molesto y lo devuelve contento.","Levanta el ánimo del turno cuando la jornada está pesada.","Vende y sugiere con naturalidad.","Integra al que llega nuevo y baja la rotación temprana."],"presion":["Promete lo que la cocina no puede cumplir.","Evita la conversación incómoda para no dañar la relación.","Se dispersa: empieza muchas cosas y cierra pocas.","Descuida el registro, el soporte y el detalle."],"liderar":["Reconoce en público lo que hizo bien; le rinde más que un bono.","Ponle metas visibles y con seguimiento corto.","Acompáñalo en lo documental; ahí es donde se le cae el proceso.","Dale espacios donde su energía tenga función: inducción, campañas, servicio."],"desarrollo":["Cierre de ciclos y cumplimiento de compromisos.","Conversaciones difíciles sin rodeos.","Disciplina de registro y evidencia."]},"S":{"titulo":"Fogón — Soporte","motor":"La estabilidad. Necesita reglas claras, buen trato y previsibilidad.","fortalezas":["Sostiene el turno largo sin alterarse.","Es el punto de confianza del equipo; a él le cuentan primero.","Entrena con paciencia y repite las veces que haga falta.","Baja la tensión entre áreas."],"presion":["Se guarda el malestar hasta que explota o renuncia.","Le cuesta decir que no y termina sobrecargado.","Demora la decisión por no generar incomodidad.","Resiste el cambio si se lo anuncian encima del turno."],"liderar":["Avísale los cambios con tiempo y explícale el porqué.","Pregúntale directo qué piensa; no lo dirá de forma espontánea.","Reconócele la constancia, no solo los picos.","Cuida su carga: es el primero en quedarse y el último en quejarse."],"desarrollo":["Asertividad y manejo de límites.","Tolerancia al cambio y a la ambigüedad.","Tomar decisiones sin consenso total."]},"A":{"titulo":"Receta — Alineación","motor":"La exactitud. Necesita criterio claro, datos y hacer las cosas bien.","fortalezas":["Sostiene el estándar de producto y de higiene.","Detecta la desviación de costo antes de que la vea el P y G.","Documenta, deja evidencia y soporta la auditoría.","Entrena con procedimiento, no con costumbre."],"presion":["Se paraliza buscando la información completa.","Corrige el detalle y pierde el ritmo del servicio.","Se vuelve rígido y el equipo lo siente inflexible.","Critica el error sin reconocer lo que sí salió bien."],"liderar":["Dale el criterio y el dato antes de pedirle la acción.","Define qué nivel de detalle es suficiente para cada tarea.","Reconócele el rigor; lo motiva más que la felicitación general.","Involúcralo en el diseño de procedimientos y auditorías."],"desarrollo":["Velocidad de decisión con información parcial.","Retroalimentación equilibrada, no solo correctiva.","Flexibilidad operativa en pico de demanda."]}},"COMBOS":{"ME":"Empuja y contagia. Arranca la operación y se lleva al equipo detrás, pero se le escapa el detalle.","MS":"Firme por fuera, leal por dentro. Decide rápido y sostiene a su gente; le cuesta la parte documental.","MA":"Mando exacto. Resultado y estándar al tiempo. Su riesgo es la dureza en el trato.","EM":"Anfitrión con carácter. Enamora al cliente y no le teme a la decisión; necesita cerrar ciclos.","ES":"El que une al equipo. Clima y permanencia. Necesita apoyo en control y en exigencia.","EA":"Anfitrión metódico. Vende bien y además registra. Puede confundirse entre agradar y exigir.","SM":"Soporte con carácter. Estable, y cuando toca, decide. Perfil de segundo a bordo muy sólido.","SE":"El pegamento del punto. Clima, escucha y servicio. Le falta filo para la exigencia.","SA":"Soporte meticuloso. Constancia y estándar. Ideal para producción y almacén; lento para el cambio.","AM":"Control con mando. Audita y corrige sin titubear. Cuidar el tono con el equipo.","AE":"Control cercano. Exige el estándar sin romper la relación. Perfil formador natural.","AS":"Control paciente. Rigor y buen trato. Su reto es sostener el ritmo en pico de demanda."},"PESO":{"jefe":0.7,"auto":0.3,"blandas":0.4,"tecnicas":0.6}}};                                       // cargos + banco 180° + modelo M.E.S.A.
+const MESA = BANK.mesa, WC = MESA.PESO;                          // Competencias M.E.S.A.: jefe 70/auto 30 · blandas 40/técnicas 60
+
+/* =================== LOGO =================== */
+const LOGO=(s=96,bg='#A87A53',fg='#F7DEB2')=>`<svg class="logo" width="${s}" height="${s}" viewBox="0 0 120 120" role="img" aria-label="TRG Restaurant Group"><rect width="120" height="120" rx="14" fill="${bg}"/><path d="M24 22H84V36M24 22V96H84V82" fill="none" stroke="${fg}" stroke-width="2.4"/><text x="68" y="70" font-family="Montserrat,Arial" font-size="30" font-weight="500" fill="${fg}" text-anchor="middle" letter-spacing="1">TRG</text><text x="68" y="83" font-family="Montserrat,Arial" font-size="7.2" font-weight="600" fill="${fg}" text-anchor="middle" letter-spacing=".6">RESTAURANT GROUP</text></svg>`;
+
+/* =================== CATÁLOGOS =================== */
+const DIMC={M:'var(--m)',E:'var(--e)',S:'var(--s)',A:'var(--a)'}, DKEYS=['M','E','S','A'];
+const cargoById=id=>BANK.cargos.find(c=>c.id===id);
+const ESC5=[[1,'No evidencia'],[2,'En desarrollo'],[3,'Cumple'],[4,'Supera'],[5,'Referente']];
+const ESC4=[[1,'No demostrado'],[2,'En desarrollo'],[3,'Competente'],[4,'Referente']];
+const NIV180=[[4.5,'Referente','#C7E6D8','#245B43'],[3.8,'Sobresaliente','#DDEFE0','#2F6B3C'],[3.0,'Competente','#FFF1C9','#7A5A0C'],[2.0,'En desarrollo','#FCE3C4','#8A4F12'],[0,'Requiere mejora','#F8D7D3','#8E2F22']];
+const nivel180=v=>v==null||isNaN(v)?null:NIV180.find(n=>v>=n[0]);
+const ABIERTAS={AUTO:['¿Cuáles fueron mis tres logros más significativos en el período y qué impacto tuvieron en el negocio?','¿Qué dos competencias debo fortalecer en los próximos seis meses y por qué?','¿Qué apoyo, formación o recursos necesito de la organización?','¿Qué debería empezar, dejar de hacer y continuar haciendo como líder?'],
+ JEFE:['¿Cuáles fueron los tres logros más significativos del líder y qué impacto tuvieron en el negocio?','¿Qué dos competencias debe fortalecer en los próximos seis meses y por qué?','¿Qué apoyo, formación o recursos necesita de la organización?','¿Qué debería empezar, dejar de hacer y continuar haciendo como líder?']};
+
+/* =================== MOTOR M.E.S.A. (idéntico al modelo) =================== */
+function calcularMesa(resp){
+  const bruto={M:0,E:0,S:0,A:0};
+  resp.forEach(r=>{ if(r&&r.mas) bruto[r.mas]+=2; if(r&&r.menos) bruto[r.menos]-=1; });
+  const pct={}; DKEYS.forEach(d=>pct[d]=Math.round(Math.max(0,Math.min(100,(bruto[d]+20)/60*100))));
+  const orden=DKEYS.slice().sort((a,b)=>pct[b]-pct[a]);
+  return {bruto,pct,dom:orden[0],sec:orden[1]};
+}
+function ajusteCargo(pct,cargoId){ const c=cargoById(cargoId); if(!c) return null; let s=0; DKEYS.forEach(d=>s+=Math.abs(pct[d]-c[d])); return Math.max(0,Math.round(100-s/4)); }
+const nivelTexto=v=>v>=70?'marcado':(v>=45?'disponible':'de bajo uso');
+const ajusteChip=a=>a==null?'—':`<span class="chip ${a>=80?'ok':a>=65?'medio':'bajo'}">${a>=80?'Ajuste alto':a>=65?'Ajuste medio':'Ajuste a revisar'} · ${a}%</span>`;
+function mesaDeFila(r){ let pct={M:+r.M,E:+r.E,S:+r.S,A:+r.A}, dom=r.dominante, sec=r.secundario;
+  try{ const ans=JSON.parse(r.respuestas_json||'[]'); if(ans.length){ const c=calcularMesa(ans); pct=c.pct; dom=c.dom; sec=c.sec; } }catch(e){}
+  if(!dom){ const o=DKEYS.slice().sort((a,b)=>pct[b]-pct[a]); dom=o[0]; sec=o[1]; }
+  return {pct,dom,sec}; }
+
+/* =================== COMPETENCIAS M.E.S.A. (1–4) =================== */
+function compItems(cargoId){ const c=cargoById(cargoId), fam=c?c.fam:'admin';
+  return [...MESA.BLANDAS.map(x=>({tipo:'Blanda',nombre:x[0],det:x[1]})), ...MESA.TECNICAS.base.concat(MESA.TECNICAS[fam]||[]).map(x=>({tipo:'Técnica',nombre:x[0],det:x[1]}))]; }
+function compPromedios(scores,cargoId){ const it=compItems(cargoId); const val=t=>it.filter(i=>i.tipo===t).map(i=>+scores[i.nombre]).filter(v=>v>0);
+  const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null; return {B:avg(val('Blanda')),T:avg(val('Técnica'))}; }
+function compConsolidar(cargoId,auto,jefe){
+  const det=compItems(cargoId).map(i=>{ const a=auto?+auto[i.nombre]||null:null, j=jefe?+jefe[i.nombre]||null:null;
+    const fin=a!=null&&j!=null?+(j*WC.jefe+a*WC.auto).toFixed(2):(j!=null?j:a); return {...i,auto:a,jefe:j,final:fin}; });
+  const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+  const pb=avg(det.filter(d=>d.tipo==='Blanda'&&d.final!=null).map(d=>d.final)), pt=avg(det.filter(d=>d.tipo==='Técnica'&&d.final!=null).map(d=>d.final));
+  const global=pb!=null&&pt!=null?Math.round((pb*WC.blandas+pt*WC.tecnicas)/4*100):null;
+  const both=det.filter(d=>d.auto!=null&&d.jefe!=null); const brecha=both.length?+(both.reduce((s,d)=>s+(d.auto-d.jefe),0)/both.length).toFixed(2):null;
+  return {det,pb,pt,global,brecha};
+}
+function bandaGlobal(g){ if(g==null) return null;
+  if(g>=85) return ['ok','Referente','Candidato a formador interno y a línea de carrera.'];
+  if(g>=70) return ['ok','Competente','Plan de desarrollo de refuerzo puntual.'];
+  if(g>=55) return ['medio','En desarrollo','Plan de entrenamiento con seguimiento mensual.'];
+  return ['bajo','Brecha crítica','Acompañamiento formal y revisión del ajuste al cargo.']; }
+const lecturaBrecha=b=>b==null?'Falta la autoevaluación o la evaluación del jefe para leer la brecha.':b>0.8?'Sobreestimación: se califica por encima de lo que observa su jefe. Preparar la retroalimentación con evidencia concreta, no con opiniones.':b<-0.8?'Subvaloración: hace más de lo que se reconoce. Riesgo de desmotivación; conviene reconocerlo de forma explícita.':'Percepción alineada entre la persona y su jefe. La conversación de desarrollo parte de una base común.';
+
+/* =================== 180° (1–5) =================== */
+function comps180(cargoId){ const c=cargoById(cargoId); return [...BANK.b180.blandas.map(x=>({...x,parte:'A'})),...(c?BANK.b180.fam[c.fam]:[]).map(x=>({...x,parte:'B'}))]; }
+function items180(cargoId){ const its=[]; comps180(cargoId).forEach(b=>b.q.forEach((q,j)=>its.push({id:`${b.id}.${j+1}`,parte:b.parte,comp:b.id,q}))); return its; }
+function prom180(scores,cargoId){ const g={}; items180(cargoId).forEach(it=>{const v=+scores[it.id]; if(v)(g[it.comp]=g[it.comp]||[]).push(v);});
+  const avg=a=>a&&a.length?a.reduce((x,y)=>x+y,0)/a.length:null, comp={}; for(const k in g) comp[k]=avg(g[k]);
+  return {comp,A:avg(Object.keys(comp).filter(k=>k[0]==='A').map(k=>comp[k])),B:avg(Object.keys(comp).filter(k=>k[0]==='B').map(k=>comp[k]))}; }
+const f2=v=>v==null||isNaN(v)?'—':(+v).toFixed(2).replace('.',',');
+
+/* =================== API (real o demo) =================== */
+const DEMO=!API_URL;
+async function api(action,data={}){
+  if(!DEMO){ const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data})}); const j=await r.json(); if(!j.ok) throw new Error(j.error||'Error'); return j; }
+  return mock(action,data);
+}
+function demoDb(){ let db=null; try{db=JSON.parse(localStorage.getItem('trg_demo_db2'))}catch(e){}
+  return db||{periodo:'2026-II',key:'DEMO',mesa:[],comp:[],r180:[],users:[
+    {cedula:'111',pin:'1111',nombre:'Andrea Gómez (demo)',cargo_id:'GAF',marca:'Corporativo / TRG',area_punto:'Gerencia Adm. y Financiera',jefe_cedula:'999'},
+    {cedula:'222',pin:'2222',nombre:'Carlos Ruiz (demo)',cargo_id:'JCO',marca:'Corporativo / TRG',area_punto:'Compras',jefe_cedula:'111'},
+    {cedula:'333',pin:'3333',nombre:'Laura Pérez (demo)',cargo_id:'DGH',marca:'Corporativo / TRG',area_punto:'Gestión Humana',jefe_cedula:'111'},
+    {cedula:'999',pin:'9999',nombre:'Gerente General (demo)',cargo_id:'EVAL',marca:'Corporativo / TRG',area_punto:'Gerencia General',jefe_cedula:''}]}; }
+function saveDemo(db){ try{localStorage.setItem('trg_demo_db2',JSON.stringify(db))}catch(e){} }
+async function mock(action,d){
+  await new Promise(r=>setTimeout(r,200)); const db=demoDb(), per=db.periodo;
+  const auth=()=>{const u=db.users.find(x=>x.cedula===String(d.cedula).trim()&&x.pin===String(d.pin).trim()); if(!u) throw new Error('Cédula o PIN incorrectos'); return u;};
+  const pub=u=>({cedula:u.cedula,nombre:u.nombre,cargo_id:u.cargo_id,marca:u.marca,area_punto:u.area_punto,jefe_cedula:u.jefe_cedula});
+  const hecho=(arr,ev,tipo,evr)=>arr.some(r=>r.periodo===per&&r.evaluado_cedula===ev&&r.tipo===tipo&&(!evr||r.evaluador_cedula===evr));
+  if(action==='login'){ const u=auth(), me=u.cedula, m=db.mesa.filter(r=>r.periodo===per&&r.cedula===me).pop();
+    return {ok:true,periodo:per,user:pub(u),equipo:db.users.filter(x=>x.jefe_cedula===me).map(x=>({...pub(x),compJefe:hecho(db.comp,x.cedula,'JEFE',me),jefe180:hecho(db.r180,x.cedula,'JEFE',me)})),
+      estado:{mesa:m?{M:m.M,E:m.E,S:m.S,A:m.A}:null,compAuto:hecho(db.comp,me,'AUTO'),auto180:hecho(db.r180,me,'AUTO')}}; }
+  if(action==='submitMesa'){ const u=auth(), r=d.res; db.mesa.push({fecha:new Date().toISOString(),periodo:per,cedula:u.cedula,nombre:u.nombre,cargo_id:u.cargo_id,marca:u.marca,area_punto:u.area_punto,...r.pct,dominante:r.dom,secundario:r.sec,ajuste_cargo:r.ajuste,bruto_json:JSON.stringify(r.bruto),respuestas_json:JSON.stringify(d.answers),consentimiento:d.consent?'SI':'NO'}); saveDemo(db); return {ok:true}; }
+  if(action==='submitEval'){ const u=auth(), ev=d.tipo==='JEFE'?db.users.find(x=>x.cedula===d.evaluado):u;
+    db[d.instrumento==='COMP'?'comp':'r180'].push({fecha:new Date().toISOString(),periodo:per,evaluado_cedula:ev.cedula,evaluado_nombre:ev.nombre,cargo_id:ev.cargo_id,evaluador_cedula:u.cedula,evaluador_nombre:u.nombre,tipo:d.tipo,prom_blandas:d.promB,prom_tecnicas:d.promT,puntajes_json:JSON.stringify(d.scores),evidencias_json:JSON.stringify(d.evidencias||{}),abiertas_json:JSON.stringify(d.abiertas||{}),consentimiento:d.consent?'SI':'NO'}); saveDemo(db); return {ok:true}; }
+  if(action==='admin'){ if(d.key!==db.key) throw new Error('Clave de asesora incorrecta'); return {ok:true,periodo:per,users:db.users.map(pub),mesa:db.mesa,comp:db.comp,r180:db.r180}; }
+  if(action==='setPeriodo'){ if(d.key!==db.key) throw new Error('Clave incorrecta'); db.periodo=d.periodo; saveDemo(db); return {ok:true}; }
+  throw new Error('Acción no válida');
+}
+
+/* =================== UTILIDADES UI =================== */
+const S={session:null,flow:null,admin:null}, $app=document.getElementById('app');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m,ms=2600){const t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),ms);}
+const topbar=(t,sub,btn)=>`<div class="top">${LOGO(38)}<div class="t">${esc(t)}<small>${esc(sub||'')}</small></div>${btn||''}</div>`;
+const busy=b=>document.querySelectorAll('button').forEach(x=>x.disabled=b);
+const scrollTop=()=>window.scrollTo({top:0,behavior:'instant'});
+const $=id=>document.getElementById(id);
+const bind=(id,fn)=>{const el=$(id); if(el) el.onclick=fn;};
+const dkey=f=>`trg2_${S.session.user.cedula}_${f.kind}_${f.evaluado||''}`;
+const saveDraft=()=>{try{localStorage.setItem(dkey(S.flow),JSON.stringify(S.flow))}catch(e){}};
+const loadDraft=k=>{try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}};
+const clearDraft=()=>{try{localStorage.removeItem(dkey(S.flow))}catch(e){}};
+const consentHTML=()=>`<label style="display:flex;gap:10px;align-items:flex-start;font-weight:500"><input type="checkbox" id="cons" style="width:22px;height:22px;flex:none;margin-top:2px"><span class="small">Autorizo a TRIFASE S.A.S. y a su asesor El Proveedor Empresarial S.A.S. a tratar mis respuestas con fines exclusivos de desarrollo y gestión del talento, conforme a la Ley 1581 de 2012. Entiendo que los resultados son insumo de desarrollo, no de sanción.</span></label>`;
+function barrasMesa(pct,ideal){ return DKEYS.map(d=>{const D=MESA.DIMS[d]; return `<div class="bar"><div class="lb" style="color:${DIMC[d]}">${d} · ${D.nombre}<div class="small muted" style="font-weight:400">${D.estilo}</div></div><div class="tr"><i style="width:${pct[d]}%;background:${DIMC[d]}"></i>${ideal?`<b style="left:calc(${ideal[d]}% - 1px)" title="Perfil esperado del cargo: ${ideal[d]}"></b>`:''}</div><div class="v">${pct[d]}</div></div>`}).join(''); }
+
+/* =================== LOGIN =================== */
+function viewLogin(){
+  $app.innerHTML=`<div class="hero">${LOGO(100)}<h1>Evaluación de Líderes</h1><p style="margin:0;opacity:.92">Modelo M.E.S.A. &nbsp;·&nbsp; Evaluación 180°</p></div>
+  <div class="wrap">${DEMO?`<div class="demo"><b>Modo demostración.</b> Directivo y jefe: cédula <b>111</b> PIN <b>1111</b> · directivos: <b>222/2222</b>, <b>333/3333</b> · asesora: clave <b>DEMO</b>.</div>`:''}
+   <div class="card"><h2>Ingresa con tus datos</h2><p class="muted small">Responde pensando en cómo actúas realmente en el punto, no en cómo crees que deberías actuar. Puedes pausar y continuar desde este celular.</p>
+    <label for="ced">Número de cédula</label><input id="ced" inputmode="numeric" autocomplete="username">
+    <label for="pin">PIN</label><input id="pin" type="password" inputmode="numeric" autocomplete="current-password">
+    <div style="height:14px"></div><button class="btn" id="go">Ingresar</button></div>
+   <p class="small muted" style="text-align:center">¿Eres la asesora de Gestión Humana? <a href="#" id="adm" style="color:var(--car-d);font-weight:600">Ingresar al panel</a></p>
+   <p class="small muted" style="text-align:center;margin-top:24px">TRIFASE S.A.S. — TRG Restaurant Group · Gestión Humana con El Proveedor Empresarial S.A.S.</p></div>`;
+  const go=async()=>{const c=$('ced').value.trim(),p=$('pin').value.trim(); if(!c||!p) return toast('Escribe tu cédula y tu PIN');
+    busy(true); try{const r=await api('login',{cedula:c,pin:p}); S.session={...r,cedula:c,pin:p}; viewHome();}catch(e){toast(e.message)} busy(false);};
+  bind('go',go); $('pin').onkeydown=e=>{if(e.key==='Enter')go()}; $('adm').onclick=e=>{e.preventDefault();viewAdminLogin();};
+}
+async function refresh(){const s=S.session; const r=await api('login',{cedula:s.cedula,pin:s.pin}); S.session={...r,cedula:s.cedula,pin:s.pin};}
+
+/* =================== HOME =================== */
+function calcRes(p,cargo){ const pct={M:+p.M,E:+p.E,S:+p.S,A:+p.A}, o=DKEYS.slice().sort((a,b)=>pct[b]-pct[a]); return {pct,dom:o[0],sec:o[1],ajuste:ajusteCargo(pct,cargo)}; }
+function viewHome(){
+  const s=S.session,u=s.user,esEval=u.cargo_id==='EVAL',c=cargoById(u.cargo_id);
+  const ok='<span class="pill ok">Listo</span>', pend='<span class="pill pend">Pendiente</span>';
+  const tile=(id,ic,col,t,sub,st)=>`<div class="card tile" id="${id}"><div class="ic" style="background:${col}">${ic}</div><div class="bd"><h3>${t}</h3><div class="small muted">${sub}</div></div>${st}</div>`;
+  let h=topbar('Hola, '+u.nombre.split(' ')[0],`Periodo ${s.periodo}`,'<button id="out">Salir</button>')+'<div class="wrap">';
+  if(DEMO) h+='<div class="demo">Modo demostración: las respuestas se guardan solo en este navegador.</div>';
+  if(!esEval){
+    h+=`<p class="muted" style="margin:2px 2px 4px">${esc(c?c.nombre:u.cargo_id)} · ${esc(u.marca||'')}${u.area_punto?' · '+esc(u.area_punto):''}</p>`;
+    h+=`<div class="sec-title"><span class="tag" style="background:var(--m)">Prueba 1</span><h2 style="margin:0">Modelo M.E.S.A.</h2></div>`;
+    h+=tile('tMesa','MESA','linear-gradient(135deg,#C1362F 0 25%,#DE9A20 25% 50%,#3E7C5A 50% 75%,#2C5AA0 75%)','Test de estilo de liderazgo','20 bloques de elección forzada · 8 a 12 min',s.estado.mesa?ok:pend);
+    h+=tile('tComp','1–4','#3B2A1E','Mis competencias M.E.S.A.',`Autoevaluación · ${compItems(u.cargo_id).length} competencias · 6 min`,s.estado.compAuto?ok:pend);
+    h+=`<div class="sec-title"><span class="tag" style="background:var(--car)">Prueba 2</span><h2 style="margin:0">Evaluación 180°</h2></div>`;
+    h+=tile('t180','180°','#A87A53','Mi autoevaluación de competencias',`${items180(u.cargo_id).length} conductas + 4 preguntas · 15 min`,s.estado.auto180?ok:pend);
+  }
+  if(s.equipo.length){
+    h+=`<div class="sec-title"><span class="tag" style="background:var(--esp)">Como jefe</span><h2 style="margin:0">Evaluar a mi equipo</h2></div>`;
+    s.equipo.forEach((e,i)=>{ const ce=cargoById(e.cargo_id);
+      h+=`<div class="card eq"><h3 style="margin:0">${esc(e.nombre)}</h3><div class="small muted">${esc(ce?ce.nombre:e.cargo_id)} · ${esc(e.marca||'')}</div>
+      <div class="acts"><button class="btn sm ${e.compJefe?'sec':''}" id="eqC${i}">${e.compJefe?'✓ ':''}Competencias M.E.S.A.</button><button class="btn sm ${e.jefe180?'sec':''}" id="eq1${i}">${e.jefe180?'✓ ':''}Evaluación 180°</button></div></div>`; });
+  }
+  if(esEval&&!s.equipo.length) h+='<div class="card"><p>No tienes colaboradores asignados en este periodo.</p></div>';
+  if(s.estado.mesa&&!esEval){ const r=calcRes(s.estado.mesa,u.cargo_id); h+=`<div class="card" style="margin-top:18px"><h3>Tu estilo M.E.S.A.</h3><div style="color:${DIMC[r.dom]};font-weight:700;font-size:18px">${esc(MESA.LECTURA[r.dom].titulo)}</div>${barrasMesa(r.pct)}<button class="btn sec" id="verMesa" style="margin-top:8px">Ver mi informe</button></div>`; }
+  $app.innerHTML=h+'</div>'; scrollTop();
+  bind('out',()=>{S.session=null;viewLogin();});
+  bind('tMesa',()=>s.estado.mesa?toast('Ya respondiste el test M.E.S.A. en este periodo. ¡Gracias!'):startMesa());
+  bind('tComp',()=>s.estado.compAuto?toast('Ya enviaste tu autoevaluación de competencias M.E.S.A.'):startComp('AUTO',u));
+  bind('t180',()=>s.estado.auto180?toast('Ya enviaste tu autoevaluación 180°.'):start180('AUTO',u));
+  s.equipo.forEach((e,i)=>{ bind('eqC'+i,()=>e.compJefe?toast('Ya evaluaste las competencias M.E.S.A. de '+e.nombre):startComp('JEFE',e)); bind('eq1'+i,()=>e.jefe180?toast('Ya hiciste la 180° de '+e.nombre):start180('JEFE',e)); });
+  bind('verMesa',()=>viewMesaResult(calcRes(s.estado.mesa,u.cargo_id),u,true));
+}
+
+/* =================== TEST M.E.S.A. =================== */
+function startMesa(){ const d=loadDraft(`trg2_${S.session.user.cedula}_MESA_`);
+  S.flow=d&&d.kind==='MESA'?d:{kind:'MESA',evaluado:'',i:-1,answers:MESA.BLOQUES.map(()=>({mas:null,menos:null})),consent:false}; renderMesa(); }
+function renderMesa(){
+  const f=S.flow,n=MESA.BLOQUES.length;
+  if(f.i<0){
+    $app.innerHTML=topbar('Modelo M.E.S.A.','Test de estilo','<button id="back">Volver</button>')+`<div class="wrap"><div class="card">
+     <h1>Cuatro maneras de sostener un servicio</h1><p>Ninguna sobra, ninguna basta sola. Este test traduce tu forma de liderar al lenguaje real del restaurante: el rush, la comanda, el reclamo en la mesa, el inventario que no cuadra.</p>
+     <div class="grid" style="grid-template-columns:1fr 1fr;margin:12px 0">${DKEYS.map(d=>{const D=MESA.DIMS[d];return `<div style="border-left:4px solid ${DIMC[d]};padding:6px 10px;background:var(--crema-l);border-radius:8px"><b style="color:${DIMC[d]}">${d} · ${D.nombre}</b><div class="small muted">Estilo ${D.estilo}</div></div>`}).join('')}</div>
+     <h3>¿Cómo se responde?</h3><p class="small">Son 20 bloques. En cada uno marca la frase que <b style="color:var(--ok)">MÁS</b> te describe y la que <b style="color:var(--bad)">MENOS</b> te describe. Mide preferencia conductual, no conocimiento: no hay respuestas buenas ni malas.</p>
+     ${consentHTML()}<div style="height:12px"></div><button class="btn" id="start">Comenzar los 20 bloques</button></div></div>`;
+    bind('back',viewHome); $('cons').checked=f.consent;
+    bind('start',()=>{if(!$('cons').checked) return toast('Debes aceptar la autorización de datos para continuar'); f.consent=true;f.i=0;saveDraft();renderMesa();}); return;
+  }
+  const [enun,ops]=MESA.BLOQUES[f.i], a=f.answers[f.i];
+  $app.innerHTML=topbar('Modelo M.E.S.A.',`Bloque ${f.i+1} de ${n}`,'<button id="pause">Pausar</button>')+`<div class="wrap"><div class="prog"><i style="width:${f.i/n*100}%"></i></div>
+   <div class="card"><h2 style="font-size:18px">${esc(enun)}</h2><p class="small muted" style="margin:0">Marca una como la que <b>más</b> te describe y una como la que <b>menos</b>.</p></div>
+   ${DKEYS.map(d=>`<div class="opt ${a.mas===d?'mas':''} ${a.menos===d?'menos':''}"><div>${esc(ops[d])}</div><div class="ch"><button class="m ${a.mas===d?'on':''}" data-t="mas" data-k="${d}">Más</button><button class="n ${a.menos===d?'on':''}" data-t="menos" data-k="${d}">Menos</button></div></div>`).join('')}</div>
+   <div class="sticky"><div class="in"><button class="btn sec" id="prev" ${f.i===0?'disabled':''}>Volver</button><button class="btn" id="next" ${a.mas&&a.menos?'':'disabled'}>${f.i===n-1?'Ver mi resultado':'Siguiente'}</button></div></div>`;
+  scrollTop();
+  document.querySelectorAll('.ch button').forEach(b=>b.onclick=()=>{const t=b.dataset.t,k=b.dataset.k,o=t==='mas'?'menos':'mas'; a[t]=a[t]===k?null:k; if(a[o]===a[t]) a[o]=null; saveDraft(); const y=scrollY; renderMesa(); scrollTo(0,y);});
+  bind('pause',()=>{saveDraft();toast('Guardamos tu avance en este celular');viewHome();});
+  bind('prev',()=>{f.i--;saveDraft();renderMesa();});
+  bind('next',async()=>{ if(f.i<n-1){f.i++;saveDraft();renderMesa();return;}
+    const u=S.session.user, c=calcularMesa(f.answers), res={...c,ajuste:ajusteCargo(c.pct,u.cargo_id)}; busy(true);
+    try{ await api('submitMesa',{cedula:S.session.cedula,pin:S.session.pin,answers:f.answers,res,consent:f.consent}); clearDraft(); await refresh(); viewMesaResult(res,u,false);}
+    catch(e){toast('No se pudo enviar: '+e.message+'. Tu avance sigue guardado.',4000); busy(false);} });
+}
+function informeMesa(r,u,paraAsesora){
+  const L=MESA.LECTURA[r.dom], c=cargoById(u.cargo_id), combo=MESA.COMBOS[r.dom+r.sec]||'';
+  return `<div class="card" style="border-top:6px solid ${DIMC[r.dom]}"><div class="small muted">${esc(u.nombre)} · ${esc(c?c.nombre:'')} · ${esc(u.marca||'')}</div>
+   <h1 style="color:${DIMC[r.dom]};margin-top:6px">${esc(L.titulo)}</h1><div class="small muted">Estilo secundario: ${MESA.DIMS[r.sec].nombre} (${MESA.DIMS[r.sec].estilo})</div>
+   <p style="margin-top:10px">${esc(combo)}</p><p><b>Lo que la mueve:</b> ${esc(L.motor)}</p><p class="small muted">Rasgo dominante ${nivelTexto(r.pct[r.dom])} (${r.pct[r.dom]}/100).</p>
+   ${barrasMesa(r.pct,c)}${c?'<p class="small muted" style="margin-top:4px">La marca oscura en cada barra es el perfil esperado del cargo.</p>':''}</div>
+  <div class="two"><div class="card"><h3>Dónde suma en la operación</h3><ul>${L.fortalezas.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+   <div class="card"><h3>Qué le pasa bajo presión</h3><ul>${L.presion.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div>
+  <div class="two"><div class="card"><h3>Cómo liderar a esta persona</h3><ul>${L.liderar.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+   <div class="card"><h3>Focos de su plan de desarrollo</h3><ul>${L.desarrollo.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></div>
+  ${c&&r.ajuste!=null?`<div class="card"><h3>Ajuste conductual al cargo ${ajusteChip(r.ajuste)}</h3><div class="tbl" style="margin-top:8px"><table><tr><th>Dimensión</th><th class="n">Persona</th><th class="n">Esperado</th><th class="n">Dif.</th><th>Lectura</th></tr>
+   ${DKEYS.map(d=>{const dif=r.pct[d]-c[d]; return `<tr><td><span class="chip ${d.toLowerCase()}">${d}</span> ${MESA.DIMS[d].nombre}</td><td class="n">${r.pct[d]}</td><td class="n">${c[d]}</td><td class="n">${dif>0?'+':''}${dif}</td><td>${Math.abs(dif)<=10?'Alineado':dif>0?'Por encima de lo que el cargo demanda':'Por debajo de lo que el cargo demanda'}</td></tr>`}).join('')}</table></div>
+   <p class="small muted" style="margin-top:8px">El ajuste describe adaptación conductual, no capacidad. Se lee junto con la evaluación de competencias y el desempeño del cargo.</p>
+   ${paraAsesora?`<div class="tbl" style="margin-top:8px"><table><tr><th style="width:150px">Área</th><td>${esc(c.area)}</td></tr><tr><th>Superior inmediato</th><td>${esc(c.jefe)}</td></tr><tr><th>Personal a cargo</th><td>${esc(c.equipo)}</td></tr><tr><th>Misión</th><td>${esc(c.mision)}</td></tr></table></div>`:''}</div>`:''}`;
+}
+function viewMesaResult(r,u,fromHome){
+  $app.innerHTML=topbar('Tu estilo M.E.S.A.','Informe individual','<button id="h">Inicio</button>')+`<div class="wrap">${informeMesa(r,u,false)}
+   <p class="small muted" style="text-align:center">El resultado se retroalimenta siempre en conversación con tu asesora de Gestión Humana.</p>
+   <div class="row noprint"><button class="btn sec" onclick="window.print()">Imprimir</button><button class="btn" id="h2">Volver al inicio</button></div></div>`;
+  scrollTop(); bind('h',viewHome); bind('h2',viewHome); if(!fromHome) toast('¡Gracias! Tu test M.E.S.A. quedó registrado.');
+}
+
+/* =================== COMPETENCIAS M.E.S.A. =================== */
+function startComp(tipo,ev){ const d=loadDraft(`trg2_${S.session.user.cedula}_COMP${tipo}_${tipo==='JEFE'?ev.cedula:''}`);
+  S.flow=d&&d.kind==='COMP'+tipo?d:{kind:'COMP'+tipo,tipo,evaluado:tipo==='JEFE'?ev.cedula:'',ev,i:-1,scores:{},consent:false}; renderComp(); }
+function renderComp(){
+  const f=S.flow,ev=f.ev,auto=f.tipo==='AUTO',c=cargoById(ev.cargo_id),its=compItems(ev.cargo_id);
+  const pages=[{t:'Blanda',titulo:'Competencias blandas',sub:`Transversales a todo líder del Grupo · peso ${WC.blandas*100} %`},{t:'Técnica',titulo:'Competencias técnicas del cargo',sub:`Base común + específicas de ${c?c.nombre:''} · peso ${WC.tecnicas*100} %`}];
+  const title=auto?'Mis competencias M.E.S.A.':'Competencias de '+ev.nombre.split(' ')[0];
+  if(f.i<0){
+    $app.innerHTML=topbar(title,'Escala conductual 1 a 4','<button id="back">Volver</button>')+`<div class="wrap"><div class="card">
+     <h1>${auto?'Mírate con honestidad para crecer':'La diferencia entre las dos miradas es tan valiosa como el puntaje'}</h1>
+     <p>${auto?'Califica tu nivel actual en cada competencia.':'Califica el nivel que has observado en operación.'} Evaluado: <b>${esc(ev.nombre)}</b> · ${esc(c?c.nombre:'')}</p>
+     <div class="tbl" style="margin:12px 0"><table>${[[1,'No demostrado','Requiere acompañamiento permanente.'],[2,'En desarrollo','Lo hace con supervisión.'],[3,'Competente','Lo hace solo. Nivel esperado.'],[4,'Referente','Lo hace y forma a otros.']].map(e=>`<tr><td style="width:40px;text-align:center;font-weight:700">${e[0]}</td><td><b>${e[1]}.</b> ${e[2]}</td></tr>`).join('')}</table></div>
+     ${consentHTML()}<div style="height:12px"></div><button class="btn" id="start">Comenzar</button></div></div>`;
+    bind('back',viewHome); $('cons').checked=f.consent; bind('start',()=>{if(!$('cons').checked) return toast('Debes aceptar la autorización de datos'); f.consent=true;f.i=0;saveDraft();renderComp();}); return;
+  }
+  const pg=pages[f.i], list=its.filter(x=>x.tipo===pg.t), valid=list.every(x=>f.scores[x.nombre]);
+  $app.innerHTML=topbar(title,`${f.i+1} de 2 · ${ev.nombre}`,'<button id="pause">Pausar</button>')+`<div class="wrap"><div class="prog"><i style="width:${f.i/2*100}%"></i></div>
+   <div class="card"><span class="pill">${pg.t==='Blanda'?'Blandas':'Técnicas'}</span><h2 style="margin-top:8px">${pg.titulo}</h2><p class="small muted">${esc(pg.sub)}</p>
+   ${list.map(x=>{const v=+f.scores[x.nombre];return `<div class="item"><b>${esc(x.nombre)}</b><div class="small muted">${esc(x.det)}</div><div class="scale s4">${ESC4.map(e=>`<button class="${v===e[0]?'on':''}" data-k="${esc(x.nombre)}" data-v="${e[0]}">${e[0]}<small>${e[1]}</small></button>`).join('')}</div></div>`}).join('')}</div></div>
+   <div class="sticky"><div class="in"><button class="btn sec" id="prev" ${f.i===0?'disabled':''}>Anterior</button><button class="btn" id="next" ${valid?'':'disabled'}>${f.i===1?'Enviar':'Siguiente'}</button></div></div>`;
+  scrollTop();
+  document.querySelectorAll('.scale button').forEach(b=>b.onclick=()=>{f.scores[b.dataset.k]=+b.dataset.v;saveDraft();const y=scrollY;renderComp();scrollTo(0,y);});
+  bind('pause',()=>{saveDraft();toast('Guardamos tu avance en este celular');viewHome();});
+  bind('prev',()=>{f.i--;saveDraft();renderComp();});
+  bind('next',async()=>{ if(f.i<1){f.i++;saveDraft();renderComp();return;}
+    const p=compPromedios(f.scores,ev.cargo_id); busy(true);
+    try{ await api('submitEval',{cedula:S.session.cedula,pin:S.session.pin,instrumento:'COMP',tipo:f.tipo,evaluado:ev.cedula,scores:f.scores,promB:+p.B.toFixed(2),promT:+p.T.toFixed(2),consent:f.consent});
+      clearDraft(); await refresh(); toast('¡Gracias! Quedó registrada.'); viewHome(); }catch(e){toast('No se pudo enviar: '+e.message+'. Tu avance sigue guardado.',4000); busy(false);} });
+}
+
+/* =================== 180° =================== */
+function start180(tipo,ev){ const d=loadDraft(`trg2_${S.session.user.cedula}_180${tipo}_${tipo==='JEFE'?ev.cedula:''}`);
+  const pages=[...comps180(ev.cargo_id).map(c=>({c})),{abiertas:true}];
+  S.flow=d&&d.kind==='180'+tipo?{...d,pages}:{kind:'180'+tipo,tipo,evaluado:tipo==='JEFE'?ev.cedula:'',ev,i:-1,pages,scores:{},evid:{},abiertas:{},consent:false}; render180(); }
+function render180(){
+  const f=S.flow,n=f.pages.length,ev=f.ev,auto=f.tipo==='AUTO',c=cargoById(ev.cargo_id);
+  const title=auto?'Mi autoevaluación 180°':'180° de '+ev.nombre.split(' ')[0];
+  if(f.i<0){
+    $app.innerHTML=topbar(title,'Evaluación 180°','<button id="back">Volver</button>')+`<div class="wrap"><div class="card">
+     <h1>${auto?'Mírate con honestidad para crecer':'Evalúa para desarrollar, no para señalar'}</h1>
+     <p>${auto?'Califica con qué frecuencia y calidad demuestras cada conducta.':'Califica las conductas que has <b>observado</b> durante el periodo.'} Evaluado: <b>${esc(ev.nombre)}</b> · ${esc(c?c.nombre:'')}</p>
+     <div class="tbl" style="margin:12px 0"><table>${ESC5.map(e=>`<tr><td style="width:40px;text-align:center;font-weight:700">${e[0]}</td><td><b>${e[1]}</b></td></tr>`).join('')}</table></div>
+     <p class="small muted">Parte A: 8 competencias blandas · Parte B: 5 competencias técnicas del cargo · 4 preguntas abiertas.${auto?'':' Si calificas 1, 2 o 5 escribe el hecho o evidencia que lo soporta.'}</p>
+     ${consentHTML()}<div style="height:12px"></div><button class="btn" id="start">Comenzar</button></div></div>`;
+    bind('back',viewHome); $('cons').checked=f.consent; bind('start',()=>{if(!$('cons').checked) return toast('Debes aceptar la autorización de datos'); f.consent=true;f.i=0;saveDraft();render180();}); return;
+  }
+  const pg=f.pages[f.i]; let body='';
+  const needEv=cc=>!auto&&cc.q.some((q,j)=>[1,2,5].includes(+f.scores[`${cc.id}.${j+1}`]));
+  const valid=()=>{ if(pg.abiertas) return true; const cc=pg.c; if(!cc.q.every((q,j)=>f.scores[`${cc.id}.${j+1}`])) return false; return !(needEv(cc)&&!(f.evid[cc.id]||'').trim()); };
+  if(pg.abiertas){ body=`<div class="card"><span class="pill">Parte C</span><h2 style="margin-top:8px">Preguntas de desarrollo</h2><p class="small muted">Escribe con ejemplos concretos. Alimentan el Plan Individual de Desarrollo.</p>${ABIERTAS[f.tipo].map((q,j)=>`<label>C${j+1}. ${q}</label><textarea data-o="C${j+1}">${esc(f.abiertas['C'+(j+1)]||'')}</textarea>`).join('')}</div>`; }
+  else { const cc=pg.c; body=`<div class="card"><span class="pill">${cc.parte==='A'?'Parte A · Blanda':'Parte B · Técnica'}</span><h2 style="margin-top:8px">${esc(cc.c)}</h2>${cc.d?`<p class="small muted">${esc(cc.d)}</p>`:''}${auto?'<p class="small muted" style="margin:0">Lee cada conducta como "Yo…".</p>':''}
+    ${cc.q.map((q,j)=>{const id=`${cc.id}.${j+1}`,v=+f.scores[id];return `<div class="item"><div><b class="muted small">${cc.parte}${id.slice(1)}</b> ${esc(q)}</div><div class="scale s5">${ESC5.map(e=>`<button class="${v===e[0]?'on':''}" data-id="${id}" data-v="${e[0]}">${e[0]}<small>${e[1]}</small></button>`).join('')}</div></div>`}).join('')}
+    ${needEv(cc)?`<label>Evidencia o hecho observado (obligatorio para 1, 2 o 5)</label><textarea id="evid" placeholder="Ej.: En la auditoría de agosto en Buffalo Grill Viva…">${esc(f.evid[cc.id]||'')}</textarea>`:''}</div>`; }
+  $app.innerHTML=topbar(title,`${f.i+1} de ${n} · ${ev.nombre}`,'<button id="pause">Pausar</button>')+`<div class="wrap"><div class="prog"><i style="width:${f.i/n*100}%"></i></div>${body}</div>
+   <div class="sticky"><div class="in"><button class="btn sec" id="prev" ${f.i===0?'disabled':''}>Anterior</button><button class="btn" id="next" ${valid()?'':'disabled'}>${f.i===n-1?'Enviar evaluación':'Siguiente'}</button></div></div>`;
+  scrollTop();
+  document.querySelectorAll('.scale button').forEach(b=>b.onclick=()=>{f.scores[b.dataset.id]=+b.dataset.v;saveDraft();const y=scrollY;render180();scrollTo(0,y);});
+  const e1=$('evid'); if(e1) e1.oninput=()=>{f.evid[pg.c.id]=e1.value;saveDraft();$('next').disabled=!valid();};
+  document.querySelectorAll('textarea[data-o]').forEach(t=>t.oninput=()=>{f.abiertas[t.dataset.o]=t.value;saveDraft();});
+  bind('pause',()=>{saveDraft();toast('Guardamos tu avance en este celular');viewHome();});
+  bind('prev',()=>{f.i--;saveDraft();render180();});
+  bind('next',async()=>{ if(f.i<n-1){f.i++;saveDraft();render180();return;}
+    const p=prom180(f.scores,ev.cargo_id); busy(true);
+    try{ await api('submitEval',{cedula:S.session.cedula,pin:S.session.pin,instrumento:'180',tipo:f.tipo,evaluado:ev.cedula,scores:f.scores,evidencias:f.evid,abiertas:f.abiertas,promB:+(p.A||0).toFixed(2),promT:+(p.B||0).toFixed(2),consent:f.consent});
+      clearDraft(); await refresh(); toast('¡Gracias! La evaluación quedó registrada.'); viewHome(); }catch(e){toast('No se pudo enviar: '+e.message+'. Tu avance sigue guardado.',4000); busy(false);} });
+}
+
+/* =================== PANEL ASESORA =================== */
+function viewAdminLogin(){
+  $app.innerHTML=`<div class="hero">${LOGO(86)}<h1>Panel de la asesora</h1><p style="margin:0;opacity:.9">Resultados, histórico e interpretación</p></div>
+  <div class="wrap">${DEMO?'<div class="demo">Modo demostración: clave <b>DEMO</b>.</div>':''}<div class="card"><label for="k">Clave de asesora</label><input id="k" type="password"><div style="height:14px"></div><button class="btn" id="go">Entrar</button></div>
+  <p style="text-align:center"><a href="#" id="bk" class="small" style="color:var(--car-d)">Volver</a></p></div>`;
+  const go=async()=>{busy(true); try{const r=await api('admin',{key:$('k').value.trim()}); S.admin={key:$('k').value.trim(),data:r,per:r.periodo}; viewAdmin();}catch(e){toast(e.message)} busy(false);};
+  bind('go',go); $('k').onkeydown=e=>{if(e.key==='Enter')go()}; $('bk').onclick=e=>{e.preventDefault();viewLogin();};
+}
+const pj=s=>{try{return typeof s==='string'?JSON.parse(s||'{}'):(s||{})}catch(e){return {}}};
+function consolidar(data,per){
+  return data.users.filter(u=>u.cargo_id&&u.cargo_id!=='EVAL').map(u=>{
+    const ced=String(u.cedula), last=(arr,tipo)=>(arr||[]).filter(r=>r.periodo===per&&String(r.evaluado_cedula)===ced&&r.tipo===tipo).pop();
+    const mRow=data.mesa.filter(r=>r.periodo===per&&String(r.cedula)===ced).pop();
+    let mesa=null; if(mRow){ const m=mesaDeFila(mRow); mesa={...m,ajuste:ajusteCargo(m.pct,u.cargo_id)}; }
+    const cA=last(data.comp,'AUTO'), cJ=last(data.comp,'JEFE');
+    const comp=(cA||cJ)?{...compConsolidar(u.cargo_id,cA?pj(cA.puntajes_json):null,cJ?pj(cJ.puntajes_json):null),autoR:cA,jefeR:cJ}:null;
+    const aR=last(data.r180,'AUTO'), jR=last(data.r180,'JEFE');
+    const pa=aR?prom180(pj(aR.puntajes_json),u.cargo_id):null, pjj=jR?prom180(pj(jR.puntajes_json),u.cargo_id):null;
+    const comb={}; new Set([...Object.keys(pa?pa.comp:{}),...Object.keys(pjj?pjj.comp:{})]).forEach(k=>{const a=pa&&pa.comp[k],j=pjj&&pjj.comp[k]; comb[k]=a!=null&&j!=null?j*W180.jefe+a*W180.auto:(j!=null?j:a);});
+    const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:null;
+    const A=avg(Object.keys(comb).filter(k=>k[0]==='A').map(k=>comb[k])), B=avg(Object.keys(comb).filter(k=>k[0]==='B').map(k=>comb[k]));
+    return {u,mesa,comp,r180:{aR,jR,pa,pj:pjj,comb,A,B,final:A!=null&&B!=null?A*W180.blandas+B*W180.tecnicas:null,completo:!!(aR&&jR)}};
+  });
+}
+const nivelTag=v=>{const n=nivel180(v); return n?`<span class="lvl" style="background:${n[2]};color:${n[3]}">${n[1]}</span>`:'<span class="muted small">—</span>';};
+const bandTag=g=>{const b=bandaGlobal(g); return b?`<span class="chip ${b[0]}">${g}% · ${b[1]}</span>`:'<span class="muted small">—</span>';};
+function mapaEquipo(rows){
+  const W=680,H=420,pad=46, pts=rows.filter(r=>r.mesa).map(r=>({x:((r.mesa.pct.M+r.mesa.pct.A)-(r.mesa.pct.E+r.mesa.pct.S))/2,y:((r.mesa.pct.M+r.mesa.pct.E)-(r.mesa.pct.S+r.mesa.pct.A))/2,r}));
+  const cx=v=>pad+((v+100)/200)*(W-2*pad), cy=v=>H-pad-((v+100)/200)*(H-2*pad), col={M:'#C1362F',E:'#DE9A20',S:'#3E7C5A',A:'#2C5AA0'};
+  return `<svg class="mapa" viewBox="0 0 ${W} ${H}" role="img" aria-label="Mapa de estilos del equipo"><rect x="${pad}" y="${pad}" width="${W-2*pad}" height="${H-2*pad}" fill="#FDFAF4" stroke="#E7DCCB"/>
+   <line x1="${W/2}" y1="${pad}" x2="${W/2}" y2="${H-pad}" stroke="#E7DCCB"/><line x1="${pad}" y1="${H/2}" x2="${W-pad}" y2="${H/2}" stroke="#E7DCCB"/>
+   <g font-family="Montserrat,Arial" font-size="12" fill="#7A6A5C"><text x="${W/2}" y="${pad-16}" text-anchor="middle">Ritmo rápido · decide y empuja</text><text x="${W/2}" y="${H-pad+26}" text-anchor="middle">Ritmo sostenido · consolida</text><text x="${pad+6}" y="${H/2-8}">Foco en la gente</text><text x="${W-pad-6}" y="${H/2-8}" text-anchor="end">Foco en la tarea</text></g>
+   ${pts.map(p=>`<circle cx="${cx(p.x).toFixed(1)}" cy="${cy(p.y).toFixed(1)}" r="9" fill="${col[p.r.mesa.dom]}" fill-opacity=".88" stroke="#fff" stroke-width="2"/><text x="${cx(p.x).toFixed(1)}" y="${(cy(p.y)-14).toFixed(1)}" text-anchor="middle" font-size="11" fill="#3B2A1E" font-family="Montserrat,Arial">${esc(p.r.u.nombre.split(' ')[0])}</text>`).join('')}</svg>`;
+}
+function alertasEquipo(rows){
+  const M=rows.filter(r=>r.mesa), n=M.length, A=[]; if(!n) return {n:0,html:'<p class="muted">Aún no hay tests M.E.S.A. en este periodo.</p>'};
+  const conteo={M:0,E:0,S:0,A:0}, prom={M:0,E:0,S:0,A:0}; M.forEach(r=>{conteo[r.mesa.dom]++; DKEYS.forEach(d=>prom[d]+=r.mesa.pct[d]);}); DKEYS.forEach(d=>prom[d]=Math.round(prom[d]/n));
+  const pd=d=>Math.round(conteo[d]/n*100);
+  if(n<3) A.push(['ambar','Muestra pequeña','Con menos de tres evaluados el mapa es indicativo. Completa el equipo antes de tomar decisiones.']);
+  if(pd('M')>=50) A.push(['roja',`Concentración de estilo Brasa (${pd('M')}%)`,'Equipo con mucho mando y poca escucha. Riesgo de choques entre líderes, rotación temprana y clima tenso. Refuerza acuerdos de convivencia y reparto claro de decisiones.']);
+  if(conteo.A===0) A.push(['roja','Nadie con Alineación dominante','No hay quien sostenga el estándar, el costo y la evidencia. Riesgo directo en BPM, inventarios y soportes de SST. Asigna el rol de control o refuérzalo con procedimiento y auditoría.']);
+  if(conteo.E===0) A.push(['ambar','Nadie con Encanto dominante','Equipo operativo pero frío en la experiencia. Revisa reseñas, ticket promedio y venta sugestiva.']);
+  if(conteo.S===0) A.push(['ambar','Nadie con Soporte dominante','Falta el estabilizador del equipo. Vigila clima, ausentismo y rotación en los primeros 90 días.']);
+  if(pd('A')>=50) A.push(['ambar',`Concentración de estilo Receta (${pd('A')}%)`,'Mucho control y poca velocidad. Riesgo de lentitud en pico de demanda y de rigidez ante el cambio.']);
+  if(prom.M>=70&&prom.S<45) A.push(['roja','Alta exigencia con bajo soporte','La combinación empuja resultados a costa del clima. Es el patrón previo a picos de rotación.']);
+  const aj=M.filter(r=>r.mesa.ajuste!=null&&r.mesa.ajuste<65); if(aj.length) A.push(['ambar',`${aj.length} persona(s) con ajuste al cargo por revisar`,aj.map(r=>`${esc(r.u.nombre)} (${esc(cargoById(r.u.cargo_id).nombre)}, ${r.mesa.ajuste}%)`).join(' · ')+'. Revisar en conversación: puede ser desarrollo, reubicación o enriquecimiento del cargo.']);
+  if(!A.length) A.push(['verde','Equipo balanceado','Las cuatro dimensiones están representadas y no hay concentraciones de riesgo. Mantener la mezcla al cubrir vacantes.']);
+  return {html:A.map(a=>`<div class="alerta ${a[0]}"><b>${a[1]}.</b> ${a[2]}</div>`).join(''),conteo,prom,n};
+}
+function viewAdmin(){
+  const {data}=S.admin, per=S.admin.per;
+  const periodos=[...new Set([data.periodo,...data.mesa.map(r=>r.periodo),...(data.comp||[]).map(r=>r.periodo),...data.r180.map(r=>r.periodo)].filter(Boolean))].sort().reverse();
+  const rows=consolidar(data,per), n=rows.length, pc=x=>n?Math.round(x/n*100)+'%':'—', cnt=f=>rows.filter(f).length, al=alertasEquipo(rows);
+  const agg={}; rows.forEach(r=>r.comp&&r.comp.det.forEach(d=>{ if(d.final==null) return; agg[d.nombre]=agg[d.nombre]||{tipo:d.tipo,s:0,n:0}; agg[d.nombre].s+=d.final; agg[d.nombre].n++; }));
+  const brechas=Object.entries(agg).map(([k,v])=>({nombre:k,tipo:v.tipo,prom:v.s/v.n,n:v.n})).sort((a,b)=>a.prom-b.prom).slice(0,10);
+  const g180=BANK.b180.blandas.map(c=>{const v=rows.map(r=>r.r180.comb[c.id]).filter(x=>x!=null); return {c,v:v.length?v.reduce((a,b)=>a+b,0)/v.length:null};});
+  $app.innerHTML=topbar('Panel de la asesora','TRIFASE · Evaluación de líderes','<button id="out">Salir</button>')+`<div class="wrap wide">${DEMO?'<div class="demo">Modo demostración.</div>':''}
+   <div class="card noprint" style="display:flex;gap:12px;flex-wrap:wrap;align-items:end">
+    <div style="flex:1;min-width:150px"><label style="margin-top:0">Periodo a consultar</label><select id="per">${periodos.map(p=>`<option ${p===per?'selected':''}>${esc(p)}</option>`).join('')}</select></div>
+    <div style="flex:1.4;min-width:220px"><label style="margin-top:0">Periodo activo (en el que responden)</label><div class="row"><input id="newPer" value="${esc(data.periodo)}"><button class="btn inline sec" id="setPer">Cambiar</button></div></div>
+    <button class="btn inline sec" id="reload">Actualizar</button><button class="btn inline" id="csv">Exportar a Excel (CSV)</button></div>
+   <div class="grid kpis" style="margin-bottom:14px">
+    <div class="kpi"><span class="small muted">Directivos</span><b>${n}</b></div>
+    <div class="kpi"><span class="small muted">Test M.E.S.A.</span><b>${pc(cnt(r=>r.mesa))}</b><span class="small muted">${cnt(r=>r.mesa)} de ${n}</span></div>
+    <div class="kpi"><span class="small muted">Competencias M.E.S.A.</span><b>${pc(cnt(r=>r.comp&&r.comp.autoR&&r.comp.jefeR))}</b><span class="small muted">auto ${cnt(r=>r.comp&&r.comp.autoR)} · jefe ${cnt(r=>r.comp&&r.comp.jefeR)}</span></div>
+    <div class="kpi"><span class="small muted">Evaluación 180°</span><b>${pc(cnt(r=>r.r180.completo))}</b><span class="small muted">auto ${cnt(r=>r.r180.aR)} · jefe ${cnt(r=>r.r180.jR)}</span></div>
+   </div>
+   <div class="sec-title"><span class="tag" style="background:var(--m)">M.E.S.A.</span><h2 style="margin:0">Perfil conductual del equipo</h2></div>
+   ${al.n?`<div class="two"><div class="card"><h3>Intensidad promedio del grupo</h3>${barrasMesa(al.prom)}
+     <div class="tbl" style="margin-top:10px"><table><tr><th>Estilo dominante</th><th class="n">Personas</th><th class="n">%</th></tr>${DKEYS.map(d=>`<tr><td><span class="chip ${d.toLowerCase()}">${d}</span> ${MESA.DIMS[d].nombre} · ${MESA.DIMS[d].estilo}</td><td class="n">${al.conteo[d]}</td><td class="n">${Math.round(al.conteo[d]/al.n*100)}%</td></tr>`).join('')}</table></div></div>
+    <div class="card"><h3>Mapa de estilos</h3>${mapaEquipo(rows)}</div></div>
+    <div class="card"><h3>Lectura del equipo</h3>${al.html}</div>`:`<div class="card">${al.html}</div>`}
+   <div class="sec-title"><span class="tag" style="background:var(--esp)">Resultados</span><h2 style="margin:0">Tablero por directivo</h2></div>
+   <div class="card"><p class="small muted">Toca una fila para abrir el informe integrado (M.E.S.A. + competencias + 180°).</p><div class="tbl"><table>
+    <thead><tr><th>Directivo</th><th>Cargo</th><th>Estilo M.E.S.A.</th><th class="n">Ajuste</th><th>Competencias M.E.S.A.</th><th class="n">Brecha</th><th class="n">180°</th><th>Nivel 180°</th></tr></thead><tbody>
+    ${rows.map((r,i)=>`<tr class="click" data-i="${i}"><td><b>${esc(r.u.nombre)}</b><div class="small muted">${esc(r.u.marca||'')}</div></td><td class="small">${esc((cargoById(r.u.cargo_id)||{}).nombre||r.u.cargo_id)}</td>
+     <td>${r.mesa?`<span class="chip ${r.mesa.dom.toLowerCase()}">${MESA.DIMS[r.mesa.dom].estilo}</span> + ${MESA.DIMS[r.mesa.sec].estilo}`:'<span class="pill pend">Pendiente</span>'}</td>
+     <td class="n">${r.mesa&&r.mesa.ajuste!=null?`<span class="chip ${r.mesa.ajuste>=80?'ok':r.mesa.ajuste>=65?'medio':'bajo'}">${r.mesa.ajuste}%</span>`:'—'}</td>
+     <td>${r.comp?bandTag(r.comp.global)+(r.comp.autoR&&r.comp.jefeR?'':'<div class="small muted">parcial</div>'):'<span class="pill pend">Pendiente</span>'}</td>
+     <td class="n">${r.comp&&r.comp.brecha!=null?(r.comp.brecha>0?'+':'')+f2(r.comp.brecha):'—'}</td>
+     <td class="n"><b>${f2(r.r180.final)}</b>${r.r180.final!=null&&!r.r180.completo?'<div class="small muted">parcial</div>':''}</td><td>${nivelTag(r.r180.final)}</td></tr>`).join('')}
+   </tbody></table></div></div>
+   <div class="two"><div class="card"><h3>Brechas prioritarias del grupo · Competencias M.E.S.A.</h3><p class="small muted">De menor a mayor promedio (sobre 4). Las tres primeras definen el plan de formación del trimestre.</p>
+    ${brechas.length?`<div class="tbl"><table><tr><th>Competencia</th><th class="n">Prom.</th><th>Acción sugerida</th></tr>${brechas.map(b=>`<tr><td>${esc(b.nombre)}<div class="small muted">${b.tipo} · ${b.n} eval.</div></td><td class="n"><span class="chip ${b.prom>=3.5?'ok':b.prom>=2.5?'medio':'bajo'}">${f2(b.prom)}</span></td><td class="small">${b.prom<2.5?'Formación obligatoria con evaluación de eficacia':b.prom<3?'Taller de refuerzo y acompañamiento en punto':'Mantener y usar a los referentes como formadores'}</td></tr>`).join('')}</table></div>`:'<p class="muted">Sin datos aún.</p>'}</div>
+    <div class="card"><h3>Competencias blandas 180° · promedio del grupo</h3>${g180.map(g=>`<div class="bar"><div class="lb" style="width:170px;font-weight:500">${esc(g.c.c)}</div><div class="tr"><i style="width:${g.v?g.v/5*100:0}%;background:${g.v==null?'#ccc':g.v>=3.8?'#3E7C5A':g.v>=3?'#DE9A20':'#C1362F'}"></i></div><div class="v">${f2(g.v)}</div></div>`).join('')}</div></div>
+  </div>`;
+  scrollTop();
+  bind('out',()=>{S.admin=null;viewLogin();});
+  $('per').onchange=e=>{S.admin.per=e.target.value;viewAdmin();};
+  bind('reload',async()=>{busy(true);try{S.admin.data=await api('admin',{key:S.admin.key});viewAdmin();toast('Datos actualizados')}catch(e){toast(e.message)}busy(false);});
+  bind('setPer',async()=>{const v=$('newPer').value.trim(); if(!v||v===data.periodo) return; if(!confirm(`¿Abrir el periodo "${v}"? Los directivos responderán sobre este periodo; el histórico anterior se conserva.`)) return;
+    busy(true);try{await api('setPeriodo',{key:S.admin.key,periodo:v}); S.admin.data=await api('admin',{key:S.admin.key}); S.admin.per=v; viewAdmin(); toast('Periodo activo: '+v);}catch(e){toast(e.message)} busy(false);});
+  bind('csv',()=>exportCSV(rows,per));
+  document.querySelectorAll('tr.click').forEach(tr=>tr.onclick=()=>viewDetalle(rows[+tr.dataset.i]));
+}
+const CSV_IDS=['A1','A2','A3','A4','A5','A6','A7','A8','B1','B2','B3','B4','B5'];
+function exportCSV(rows,per){
+  const head=['Periodo','Cédula','Nombre','Cargo','Marca','Área/Punto','MESA Mando','MESA Encanto','MESA Soporte','MESA Alineación','Estilo dominante','Estilo secundario','Ajuste al cargo %','COMP Blandas (1-4)','COMP Técnicas (1-4)','COMP Global %','COMP Banda','COMP Brecha',...CSV_IDS.map(k=>`180 ${k} (comb.)`),'180 Prom. Blandas','180 Prom. Técnicas','180 Resultado final','180 Nivel','COMP auto','COMP jefe','180 auto','180 jefe','Evaluador'];
+  const q=v=>{v=v==null?'':String(v); return /[";\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}, num=v=>v==null||isNaN(v)?'':(+v).toFixed(2).replace('.',',');
+  const L=[head.map(q).join(';')];
+  rows.forEach(r=>{const m=r.mesa,c=r.comp,t=r.r180;
+    L.push([per,r.u.cedula,r.u.nombre,(cargoById(r.u.cargo_id)||{}).nombre||r.u.cargo_id,r.u.marca,r.u.area_punto, m?m.pct.M:'',m?m.pct.E:'',m?m.pct.S:'',m?m.pct.A:'',m?MESA.DIMS[m.dom].nombre:'',m?MESA.DIMS[m.sec].nombre:'',m?m.ajuste:'',
+      c?num(c.pb):'',c?num(c.pt):'',c&&c.global!=null?c.global:'',c&&bandaGlobal(c.global)?bandaGlobal(c.global)[1]:'',c?num(c.brecha):'',
+      ...CSV_IDS.map(k=>num(t.comb[k])),num(t.A),num(t.B),num(t.final),(nivel180(t.final)||[])[1]||'',
+      c&&c.autoR?'SI':'NO',c&&c.jefeR?'SI':'NO',t.aR?'SI':'NO',t.jR?'SI':'NO',(t.jR||(c&&c.jefeR)||{}).evaluador_nombre||''].map(q).join(';'));});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob(['﻿'+L.join('\r\n')],{type:'text/csv;charset=utf-8'})); a.download=`TRG_Resultados_${per}.csv`; a.click();
+}
+function viewDetalle(r){
+  const u=r.u,c=cargoById(u.cargo_id),per=S.admin.per,t=r.r180, all=comps180(u.cargo_id), pa=t.pa?t.pa.comp:{}, pjv=t.pj?t.pj.comp:{};
+  const ranked=all.filter(x=>t.comb[x.id]!=null).sort((a,b)=>t.comb[b.id]-t.comb[a.id]);
+  const ab=t.jR?pj(t.jR.abiertas_json):{}, aa=t.aR?pj(t.aR.abiertas_json):{}, evid=t.jR?pj(t.jR.evidencias_json):{};
+  const L=[];
+  if(r.mesa){ L.push(`Estilo <b style="color:${DIMC[r.mesa.dom]}">${esc(MESA.LECTURA[r.mesa.dom].titulo)}</b> con apoyo en ${MESA.DIMS[r.mesa.sec].nombre}; ajuste conductual al cargo de <b>${r.mesa.ajuste}%</b>${r.mesa.ajuste<65?' (a revisar en conversación, junto con competencias y desempeño)':''}.`);
+    const bajos=DKEYS.filter(d=>c&&c[d]-r.mesa.pct[d]>10); if(bajos.length) L.push(`El cargo demanda más ${bajos.map(d=>MESA.DIMS[d].nombre).join(' y ')} de lo que hoy muestra: enfocar ahí el acompañamiento.`); }
+  if(r.comp&&r.comp.global!=null){ const b=bandaGlobal(r.comp.global); L.push(`Competencias M.E.S.A.: <b>${r.comp.global}%</b> (${b[1]}). ${esc(lecturaBrecha(r.comp.brecha))}`); }
+  if(t.final!=null){ L.push(`Evaluación 180°: <b>${f2(t.final)}</b> (${nivel180(t.final)[1]}) · blandas ${f2(t.A)} y técnicas ${f2(t.B)}.`);
+    if(t.A!=null&&t.B!=null&&Math.abs(t.A-t.B)>=0.5) L.push(t.A>t.B?'Su liderazgo humano supera hoy su dominio técnico del cargo: priorizar formación técnica específica.':'Su dominio técnico supera sus competencias blandas: priorizar desarrollo de liderazgo y relacionamiento.'); }
+  if(r.comp&&r.comp.global!=null&&t.final!=null){ const p180=Math.round(t.final/5*100); L.push(Math.abs(r.comp.global-p180)>=15?`Las dos pruebas de competencias no coinciden (M.E.S.A. ${r.comp.global}% vs 180° ${p180}%): revisar evidencias con el jefe antes de retroalimentar.`:`Las dos pruebas de competencias son consistentes (M.E.S.A. ${r.comp.global}% · 180° ${p180}%), lo que da solidez al resultado.`); }
+  const faltan=[!r.mesa&&'test M.E.S.A.',!(r.comp&&r.comp.autoR)&&'competencias M.E.S.A. (auto)',!(r.comp&&r.comp.jefeR)&&'competencias M.E.S.A. (jefe)',!t.aR&&'180° (auto)',!t.jR&&'180° (jefe)'].filter(Boolean);
+  if(faltan.length) L.push(`<span class="muted">Pendiente: ${faltan.join(', ')}.</span>`);
+  const cr=r.comp, crit=cr?cr.det.filter(d=>d.final!=null&&d.final<2.5).sort((a,b)=>a.final-b.final):[], fuer=cr?cr.det.filter(d=>d.final!=null&&d.final>=3.5).sort((a,b)=>b.final-a.final):[];
+  const pers=[...new Set([...S.admin.data.mesa,...(S.admin.data.comp||[]),...S.admin.data.r180].map(x=>x.periodo))].sort();
+  const hist=pers.map(p=>({p,x:consolidar(S.admin.data,p).find(z=>String(z.u.cedula)===String(u.cedula))})).filter(h=>h.x&&(h.x.mesa||h.x.comp||h.x.r180.final!=null));
+  $app.innerHTML=topbar(u.nombre,`Informe integrado · ${per}`,'<button id="bk">Volver</button>')+`<div class="wrap wide">
+   <div class="card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">${LOGO(60)}<div style="flex:1;min-width:220px"><h1 style="margin:0">${esc(u.nombre)}</h1><div class="muted">${esc(c?c.nombre:u.cargo_id)} · ${esc(u.marca||'')} · ${esc(u.area_punto||'')} · Periodo ${esc(per)}</div></div>
+    <button class="btn inline sec noprint" onclick="window.print()">Imprimir / PDF</button></div>
+   <div class="card"><h3>Lectura integrada para la asesora</h3>${L.length?`<ul>${L.map(x=>`<li>${x}</li>`).join('')}</ul>`:'<p class="muted">Sin datos suficientes aún.</p>'}</div>
+   <div class="sec-title"><span class="tag" style="background:var(--m)">Prueba 1</span><h2 style="margin:0">Test de estilo M.E.S.A.</h2></div>
+   ${r.mesa?informeMesa(r.mesa,u,true):'<div class="card muted">Aún no ha respondido el test en este periodo.</div>'}
+   <div class="sec-title"><span class="tag" style="background:var(--esp)">Prueba 1</span><h2 style="margin:0">Competencias M.E.S.A. (1–4)</h2></div>
+   ${cr?`<div class="card"><div class="small muted">Evaluó: ${esc(cr.jefeR?cr.jefeR.evaluador_nombre:'—')}</div><h2 style="margin:6px 0">Resultado global ${cr.global!=null?cr.global+'%':'—'} ${bandTag(cr.global)}</h2><p>${cr.global!=null?bandaGlobal(cr.global)[2]:''}</p>
+     <div class="tbl"><table><tr><th>Grupo</th><th class="n">Promedio (sobre 4)</th><th class="n">Peso</th><th>Lectura</th></tr><tr><td>Competencias blandas</td><td class="n">${f2(cr.pb)}</td><td class="n">${WC.blandas*100}%</td><td>${cr.pb>=3?'En el nivel esperado o por encima':'Por debajo del nivel esperado'}</td></tr><tr><td>Competencias técnicas</td><td class="n">${f2(cr.pt)}</td><td class="n">${WC.tecnicas*100}%</td><td>${cr.pt>=3?'En el nivel esperado o por encima':'Por debajo del nivel esperado'}</td></tr></table></div>
+     <p style="margin-top:10px"><b>Brecha de percepción: ${cr.brecha!=null?(cr.brecha>0?'+':'')+f2(cr.brecha):'—'}</b> — ${esc(lecturaBrecha(cr.brecha))}</p></div>
+    <div class="two"><div class="card"><h3>Prioridades de entrenamiento</h3>${crit.length?`<ul>${crit.slice(0,5).map(d=>`<li><b>${esc(d.nombre)}</b> (${f2(d.final)}) — ${d.tipo.toLowerCase()}</li>`).join('')}</ul>`:'<p class="small muted">Sin competencias por debajo de 2,5. El plan se orienta a profundización, no a nivelación.</p>'}</div>
+     <div class="card"><h3>Fortalezas aprovechables</h3>${fuer.length?`<ul>${fuer.slice(0,5).map(d=>`<li><b>${esc(d.nombre)}</b> (${f2(d.final)}) — puede entrenar a otros</li>`).join('')}</ul>`:'<p class="small muted">Aún no hay competencias en nivel de referente.</p>'}</div></div>
+    <div class="card"><h3>Detalle por competencia</h3><div class="tbl"><table><tr><th>Competencia</th><th>Tipo</th><th class="n">Auto</th><th class="n">Jefe</th><th class="n">Final</th><th class="n">Dif.</th></tr>
+     ${cr.det.map(d=>`<tr><td>${esc(d.nombre)}</td><td>${d.tipo}</td><td class="n">${d.auto??'—'}</td><td class="n">${d.jefe??'—'}</td><td class="n">${d.final!=null?`<span class="chip ${d.final>=3.5?'ok':d.final>=2.5?'medio':'bajo'}">${f2(d.final)}</span>`:'—'}</td><td class="n">${d.auto!=null&&d.jefe!=null?(d.auto-d.jefe>0?'+':'')+(d.auto-d.jefe):'—'}</td></tr>`).join('')}</table></div></div>`:'<div class="card muted">Sin evaluación de competencias M.E.S.A. en este periodo.</div>'}
+   <div class="sec-title"><span class="tag" style="background:var(--car)">Prueba 2</span><h2 style="margin:0">Evaluación 180° (1–5)</h2></div>
+   <div class="card" style="display:flex;gap:18px;flex-wrap:wrap;align-items:center"><div><div class="small muted">Resultado final</div><div style="font-size:30px;font-weight:700;color:var(--car-d)">${f2(t.final)}</div>${nivelTag(t.final)}</div>
+    <div style="flex:1;min-width:240px"><h3 style="color:var(--ok)">Top 3 fortalezas</h3>${ranked.slice(0,3).map(x=>`<div class="bar"><div class="lb" style="width:200px;font-weight:500">${esc(x.c)}</div><div class="tr"><i style="width:${t.comb[x.id]/5*100}%;background:#3E7C5A"></i></div><div class="v">${f2(t.comb[x.id])}</div></div>`).join('')||'<p class="muted">—</p>'}
+     <h3 style="color:var(--bad);margin-top:10px">Top 3 oportunidades (PID)</h3>${ranked.slice(-3).reverse().map(x=>`<div class="bar"><div class="lb" style="width:200px;font-weight:500">${esc(x.c)}</div><div class="tr"><i style="width:${t.comb[x.id]/5*100}%;background:#C1362F"></i></div><div class="v">${f2(t.comb[x.id])}</div></div>`).join('')||'<p class="muted">—</p>'}</div></div>
+   <div class="card"><h3>Detalle por competencia 180°</h3><p class="small muted">Combinado = jefe ${W180.jefe*100}% + auto ${W180.auto*100}% · Brecha = auto − jefe (≥ 1 se resalta)</p><div class="tbl"><table><tr><th>Parte</th><th>Competencia</th><th class="n">Auto</th><th class="n">Jefe</th><th class="n">Comb.</th><th class="n">Brecha</th><th>Nivel</th></tr>
+    ${all.map(x=>{const g=pa[x.id]!=null&&pjv[x.id]!=null?pa[x.id]-pjv[x.id]:null; return `<tr><td>${x.parte}</td><td>${esc(x.c)}${evid[x.id]?`<div class="small muted">Evidencia: ${esc(evid[x.id])}</div>`:''}</td><td class="n">${f2(pa[x.id])}</td><td class="n">${f2(pjv[x.id])}</td><td class="n"><b>${f2(t.comb[x.id])}</b></td><td class="n ${g!=null&&Math.abs(g)>=1?(g>0?'gap-neg':'gap-pos'):''}">${g==null?'—':(g>0?'+':'')+f2(g)}</td><td>${nivelTag(t.comb[x.id])}</td></tr>`}).join('')}</table></div></div>
+   <div class="two"><div class="card"><h3>Preguntas abiertas · Jefe</h3>${ABIERTAS.JEFE.map((q,j)=>`<p class="small"><b>C${j+1}. ${q}</b><br>${esc(ab['C'+(j+1)]||'—')}</p>`).join('')}</div>
+    <div class="card"><h3>Preguntas abiertas · Autoevaluación</h3>${ABIERTAS.AUTO.map((q,j)=>`<p class="small"><b>C${j+1}. ${q}</b><br>${esc(aa['C'+(j+1)]||'—')}</p>`).join('')}</div></div>
+   ${hist.length>1?`<div class="card"><h3>Histórico</h3><div class="tbl"><table><tr><th>Periodo</th><th>Estilo</th><th class="n">Ajuste</th><th class="n">Comp. M.E.S.A.</th><th class="n">180°</th><th>Nivel 180°</th></tr>${hist.map(h=>`<tr><td>${esc(h.p)}</td><td>${h.x.mesa?MESA.DIMS[h.x.mesa.dom].estilo+' + '+MESA.DIMS[h.x.mesa.sec].estilo:'—'}</td><td class="n">${h.x.mesa?h.x.mesa.ajuste+'%':'—'}</td><td class="n">${h.x.comp&&h.x.comp.global!=null?h.x.comp.global+'%':'—'}</td><td class="n"><b>${f2(h.x.r180.final)}</b></td><td>${nivelTag(h.x.r180.final)}</td></tr>`).join('')}</table></div></div>`:''}
+   <div class="card small muted">Documento confidencial · Ley 1581 de 2012. El resultado se retroalimenta siempre en conversación; no se usa como causal de terminación ni como único criterio de selección o promoción. Firma evaluado: ____________________ &nbsp; Firma evaluador: ____________________</div>
+  </div>`;
+  scrollTop(); bind('bk',viewAdmin);
+}
+viewLogin();
+</script>
+</body>
+</html>
