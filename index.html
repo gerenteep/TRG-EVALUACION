@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#A87A53">
-<title>TRG · Evaluación de Líderes v2.1</title>
+<title>TRG · Evaluación de Líderes v2.2</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23A87A53'/%3E%3Crect x='10' y='12' width='34' height='38' fill='none' stroke='%23F7DEB2' stroke-width='3'/%3E%3Ctext x='37' y='41' font-family='Arial' font-size='20' fill='%23F7DEB2' text-anchor='middle'%3ETRG%3C/text%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -171,11 +171,24 @@ const f2=v=>v==null||isNaN(v)?'—':(+v).toFixed(2).replace('.',',');
 /* =================== API (real o demo) =================== */
 const DEMO=!API_URL;
 async function api(action,data={}){
-  if(!DEMO){ let r,j;
-    try{ r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,...data})}); }catch(e){ throw new Error('Sin conexión con la base de datos de Google. Revisa tu internet o que el Apps Script esté implementado con acceso "Cualquier persona".'); }
-    try{ j=await r.json(); }catch(e){ throw new Error('Google respondió con un error. Revisa que el Apps Script tenga el código completo y una implementación nueva.'); }
-    if(!j.ok) throw new Error(j.error||'Error'); return j; }
-  return mock(action,data);
+  if(DEMO) return mock(action,data);
+  const body=JSON.stringify({action,...data}), getUrl=API_URL+'?p='+encodeURIComponent(body);
+  const readJson=async r=>{ try{ return await r.json(); }catch(e){ throw new Error('Google respondió con un error. Revisa que el Apps Script tenga el código completo y una implementación nueva.'); } };
+  let j=null;
+  if(getUrl.length<7000){
+    try{ j=await readJson(await fetch(getUrl,{method:'GET',redirect:'follow'})); }catch(e){ if(!/Google respondió/.test(e.message)) j=null; else throw e; }
+  }
+  if(!j){
+    try{ j=await readJson(await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body})); }
+    catch(e){
+      if(/Google respondió/.test(e.message)) throw e;
+      if(action==='submitMesa'||action==='submitEval'){ // respaldo: envío sin lectura de respuesta y verificación posterior
+        try{ await fetch(API_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body}); await new Promise(r=>setTimeout(r,2500)); return {ok:true,unverified:true}; }catch(e2){}
+      }
+      throw new Error('Sin conexión con la base de datos de Google. Revisa tu internet o que el Apps Script esté implementado con acceso "Cualquier persona".');
+    }
+  }
+  if(!j.ok) throw new Error(j.error||'Error'); return j;
 }
 function demoDb(){ let db=null; try{db=JSON.parse(localStorage.getItem('trg_demo_db2'))}catch(e){}
   return db||{periodo:'2026-II',key:'DEMO',mesa:[],comp:[],r180:[],users:[
